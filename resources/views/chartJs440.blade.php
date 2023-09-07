@@ -78,7 +78,7 @@
                 datasets: [{
                         label: 'AndroidUserCount',
                         data: [12, 19, 3, 5, 2, 3],
-                        backgroundColor: 'transparent',
+                        backgroundColor: '#943F00',
                         borderColor: '#943F00',
                         pointBorderColor: '#943F00',
                         pointBackgroundColor: '#943F00',
@@ -86,7 +86,7 @@
                     {
                         label: 'iOSUserCount',
                         data: [88, 77, 33, 44, 55, 66],
-                        backgroundColor: 'transparent',
+                        backgroundColor: '#008391',
                         borderColor: '#008391',
                         pointBorderColor: '#008391',
                         pointBackgroundColor: '#008391',
