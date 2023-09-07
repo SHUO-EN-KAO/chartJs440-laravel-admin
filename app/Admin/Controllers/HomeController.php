@@ -31,4 +31,9 @@ class HomeController extends Controller
                 });
             });
     }
+
+    public function testResult(Content $content)
+    {
+        dd('test view');
+    }
 }
