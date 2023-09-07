@@ -34,6 +34,10 @@ class HomeController extends Controller
 
     public function testResult(Content $content)
     {
-        dd('test view');
+        // dd('test view');
+
+        $content->view('chartJs440');
+
+        return $content;
     }
 }
