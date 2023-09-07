@@ -36,6 +36,8 @@ class HomeController extends Controller
     {
         // dd('test view');
 
+        $content->title('testResult');
+        $content->description('Today  : ' . date('Y-m-d'));
         $content->view('chartJs440');
 
         return $content;
