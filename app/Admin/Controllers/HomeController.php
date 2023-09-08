@@ -7,6 +7,7 @@ use Encore\Admin\Controllers\Dashboard;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
+use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
@@ -36,9 +37,19 @@ class HomeController extends Controller
     {
         // dd('test view');
 
+        $response = Http::post('http://34.100.197.14/statistics/user/new/hourly', [
+            'id' => 'NBS',
+            'date' => date('Y-m-d'),
+        ]);
+
+        $jsonUserNew = $response->json();
+        // dd($jsonUserNew);
+
         $content->title('testResult');
         $content->description('Today  : ' . date('Y-m-d'));
-        $content->view('chartJs440');
+        $content->view('chartJs440', [
+            'jsonUserNew' => $jsonUserNew,
+        ]);
 
         return $content;
     }
