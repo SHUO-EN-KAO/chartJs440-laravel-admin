@@ -13,21 +13,38 @@
         background-color: #fff;
         border-radius: 15px;
         padding: 5px;
-        height: 220px;
+        height: 235px;
     }
 
     #newUserLineChart {
         background-color: #fff;
         border-radius: 15px;
         padding: 5px;
-        height: 220px;
+        height: 235px;
     }
 
     #newUserTotalPieChart {
         background-color: #fff;
         border-radius: 15px;
         padding: 5px;
-        height: 220px;
+    }
+
+    #newUserTotalPieChart2 {
+        background-color: #fff;
+        border-radius: 15px;
+        padding: 5px;
+    }
+
+    .pieSection {
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
+        height: 235px;
+    }
+
+    .pie {
+        width: 50%;
+        margin: 2px;
     }
 </style>
 
@@ -40,8 +57,14 @@
         <canvas id="newUserLineChart"></canvas>
     </div>
 
-    <div>
-        <canvas id="newUserTotalPieChart"></canvas>
+    <div class="pieSection">
+        <div class="pie">
+            <canvas id="newUserTotalPieChart"></canvas>
+        </div>
+
+        <div class="pie">
+            <canvas id="newUserTotalPieChart2"></canvas>
+        </div>
     </div>
 
     <script>
@@ -179,15 +202,18 @@
         new Chart(newUserTotalCtx, {
             type: 'pie',
             data: {
-                labels: ['Android', 'iOS', 'All'],
+                labels: [
+                    'Android: ' + newAndroidUserTotal,
+                    'iOS: ' + newiOSUserTotal
+                ],
                 datasets: [{
                     data: [
                         newAndroidUserTotal,
-                        newiOSUserTotal,
-                        newAndroidUserTotal + newiOSUserTotal
+                        newiOSUserTotal
                     ],
-                    backgroundColor: ['#943F00', '#008391','#9745AD'],
-                }, ]
+                    backgroundColor: ['#943F00', '#008391'],
+                    hoverOffset: 10,
+                }],
             },
             options: {
                 maintainAspectRatio: false,
@@ -196,7 +222,45 @@
                         display: true,
                         text: 'New User Total',
                         font: {
-                            size: 16,
+                            size: 18,
+                        },
+                        padding: 0,
+                    },
+                    legend: {
+                        display: true,
+                        labels: {
+                            font: {
+                                weight: 'bold'
+                            }
+                        }
+                    }
+                },
+            }
+        });
+
+        const newUserTotal2Ctx = document.getElementById('newUserTotalPieChart2');
+
+        new Chart(newUserTotal2Ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Android', 'iOS'],
+                datasets: [{
+                    data: [
+                        newAndroidUserTotal,
+                        newiOSUserTotal
+                    ],
+                    backgroundColor: ['#943F00', '#008391'],
+                    hoverOffset: 10,
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'New User Total2',
+                        font: {
+                            size: 18,
                         },
                         padding: 0,
                     },
