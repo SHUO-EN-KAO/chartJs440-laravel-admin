@@ -13,14 +13,21 @@
         background-color: #fff;
         border-radius: 15px;
         padding: 5px;
-        height: 245px;
+        height: 220px;
     }
 
     #newUserLineChart {
         background-color: #fff;
         border-radius: 15px;
         padding: 5px;
-        height: 245px;
+        height: 220px;
+    }
+
+    #newUserTotalPieChart {
+        background-color: #fff;
+        border-radius: 15px;
+        padding: 5px;
+        height: 220px;
     }
 </style>
 
@@ -29,12 +36,17 @@
         <canvas id="myChart"></canvas>
     </div>
 
-    <div>
+    <div style="margin-bottom: 10px">
         <canvas id="newUserLineChart"></canvas>
+    </div>
+
+    <div>
+        <canvas id="newUserTotalPieChart"></canvas>
     </div>
 
     <script>
         const ctx = document.getElementById('myChart');
+        console.log('ctx:', ctx);
 
         new Chart(ctx, {
             type: 'bar',
@@ -68,7 +80,7 @@
         });
 
         const newUserCtx = document.getElementById('newUserLineChart');
-
+        console.log('newUserCtx:', newUserCtx);
 
         // 寫法1
         const hourLabels = [];
@@ -145,6 +157,51 @@
                         },
                     }
                 }
+            }
+        });
+
+        const newUserTotalCtx = document.getElementById('newUserTotalPieChart');
+        console.log('newUserTotalCtx:', newUserTotalCtx);
+
+        const newAndroidUserTotal =
+            newAndroidUserCount.reduce(
+                (accumulator, currentValue) => accumulator + currentValue, 0
+            )
+        console.log('newAndroidUserTotal:', newAndroidUserTotal);
+
+        const newiOSUserTotal =
+            newiOSUserCount.reduce(
+                (accumulator, currentValue) => accumulator + currentValue, 0
+            )
+        console.log('newiOSUserTotal:', newiOSUserTotal);
+
+
+        new Chart(newUserTotalCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Android', 'iOS', 'All'],
+                datasets: [{
+                    data: [
+                        newAndroidUserTotal,
+                        newiOSUserTotal,
+                        newAndroidUserTotal + newiOSUserTotal
+                    ],
+                    backgroundColor: ['#943F00', '#008391','#9745AD'],
+                }, ]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'New User Total',
+                        font: {
+                            size: 16,
+                        },
+                        padding: 0,
+                    },
+                    legend: true,
+                },
             }
         });
     </script>
