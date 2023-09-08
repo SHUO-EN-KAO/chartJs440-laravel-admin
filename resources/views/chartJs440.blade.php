@@ -16,7 +16,7 @@
         height: 245px;
     }
 
-    #userNewLineChart {
+    #newUserLineChart {
         background-color: #fff;
         border-radius: 15px;
         padding: 5px;
@@ -30,7 +30,7 @@
     </div>
 
     <div>
-        <canvas id="userNewLineChart"></canvas>
+        <canvas id="newUserLineChart"></canvas>
     </div>
 
     <script>
@@ -67,17 +67,38 @@
             }
         });
 
-        const userNewCtx = document.getElementById('userNewLineChart');
+        const newUserCtx = document.getElementById('newUserLineChart');
 
 
+        // 寫法1
+        const hourLabels = [];
+        for (let i = 0; i < 24; i++) {
+            hourLabels.push(i);
+        };
 
-        new Chart(userNewCtx, {
+        // 寫法2
+        // const hourLabels = Array.from({
+        //     length: 24
+        // }, (_, index) => index);
+
+        console.log('hourLabels:', hourLabels);
+
+        const newUser = <?php echo json_encode($jsonNewUser); ?>;
+        console.log('newUser:', newUser);
+
+        const newAndroidUserCount = newUser['data']['statistics'][0]['userCount'];
+        console.log('newAndroidUserCount:', newAndroidUserCount);
+
+        const newiOSUserCount = newUser['data']['statistics'][1]['userCount'];
+        console.log('newiOSUserCount:', newiOSUserCount);
+
+        new Chart(newUserCtx, {
             type: 'line',
             data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels: hourLabels,
                 datasets: [{
                         label: 'AndroidUserCount',
-                        data: [12, 19, 3, 5, 2, 3],
+                        data: newAndroidUserCount,
                         backgroundColor: '#943F00',
                         borderColor: '#943F00',
                         pointBorderColor: '#943F00',
@@ -85,7 +106,7 @@
                     },
                     {
                         label: 'iOSUserCount',
-                        data: [88, 77, 33, 44, 55, 66],
+                        data: newiOSUserCount,
                         backgroundColor: '#008391',
                         borderColor: '#008391',
                         pointBorderColor: '#008391',

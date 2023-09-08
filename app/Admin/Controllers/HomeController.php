@@ -42,13 +42,13 @@ class HomeController extends Controller
             'date' => date('Y-m-d'),
         ]);
 
-        $jsonUserNew = $response->json();
-        // dd($jsonUserNew);
+        $jsonNewUser = $response->json();
+        // dd($jsonNewUser);
 
         $content->title('testResult');
         $content->description('Today  : ' . date('Y-m-d'));
         $content->view('chartJs440', [
-            'jsonUserNew' => $jsonUserNew,
+            'jsonNewUser' => $jsonNewUser,
         ]);
 
         return $content;
