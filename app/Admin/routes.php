@@ -15,4 +15,6 @@ Route::group([
 
     $router->get('/testResult','HomeController@testResult')->name('testResult');
 
+    $router->get('/newUserApiDataStore','HomeController@newUserApiDataStore')->name('newUserApiDataStore');
+
 });
