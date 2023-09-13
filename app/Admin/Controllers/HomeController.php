@@ -40,11 +40,19 @@ class HomeController extends Controller
 
         $response = Http::post('http://34.100.197.14/statistics/user/new/hourly', [
             'id' => 'NBS',
-            'date' => date('Y-m-d'),
+            // 'date' => date('Y-m-d'),
+            'date' => ('2023-08-08'),
+            // 日期寫死測試
         ]);
 
         $jsonNewUser = $response->json();
         // dd($jsonNewUser);
+
+        $dataDate = $jsonNewUser['data']['date'];
+        // dd('dataDate:', $dataDate);
+
+        // 預設表示資料未被建立
+        $dataCreated = false;
 
         // 因為資料結構中statistics內為另一層陣列
         // 所以獨立拉出另外定義後才能對其做foreach並存進DB
@@ -73,22 +81,38 @@ class HomeController extends Controller
                     'platform' => $data['platform'],
                     'user_count' => json_encode($data['userCount'])
                 ]);
+
+                // 改為表示資料已被建立
+                $dataCreated = true;
             }
         }
 
-        // 從DB提取資料
-        $newUserDataFromDB = NewUserApiData::all();
+        // 頁面顯示資料處理結果
+        if ($dataCreated) {
+            $content->title('testResult');
+            $content->description('Today  : ' . date('Y-m-d'));
 
-        $content->title('testResult');
-        $content->description('Today  : ' . date('Y-m-d'));
+            // 直接取用API傳值呈現view
+            $content->view('chartJs440', [
+                'jsonNewUser' => $jsonNewUser,
+                'dataDate' => $dataDate,
+                'dataCreated' => $dataCreated,
+            ]);
 
-        // 直接取用API傳值呈現view
-        $content->view('chartJs440', [
-            'jsonNewUser' => $jsonNewUser,
-            'newUserDataFromDB' => $newUserDataFromDB,
-        ]);
+            return $content;
+        } else {
+            $content->title('testResult');
+            $content->description('Today  : ' . date('Y-m-d'));
 
-        return $content;
+            // 直接取用API傳值呈現view
+            $content->view('chartJs440', [
+                'jsonNewUser' => $jsonNewUser,
+                'dataDate' => $dataDate,
+                'dataCreated' => $dataCreated,
+            ]);
+
+            return $content;
+        }
     }
 
     public function newUserApiDataStore(Content $content)
@@ -97,8 +121,8 @@ class HomeController extends Controller
 
         $response = Http::post('http://34.100.197.14/statistics/user/new/hourly', [
             'id' => 'NBS',
-            // 'date' => date('Y-m-d'),
-            'date' => ('2023-09-09'),
+            'date' => date('Y-m-d'),
+            // 'date' => ('2023-09-09'),
             // 日期寫死測試
         ]);
 
@@ -141,7 +165,7 @@ class HomeController extends Controller
             }
         }
 
-        // 頁面顯示結果
+        // 頁面顯示資料處理結果
         if ($dataCreated) {
             return $content->row('data created');
         } else {

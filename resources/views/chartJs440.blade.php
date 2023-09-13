@@ -49,8 +49,16 @@
 </style>
 
 <body>
-    <div style="margin-bottom: 10px">
+    {{-- <div style="margin-bottom: 10px">
         <canvas id="myChart"></canvas>
+    </div> --}}
+
+    <div style="margin-bottom: 10px">
+        @if ($dataCreated)
+            <div>Notice: {{ $dataDate }} New User Data Created !</div>
+        @else
+            <div>Notice: {{ $dataDate }} New User Data Updated !</div>
+        @endif
     </div>
 
     <div style="margin-bottom: 10px">
