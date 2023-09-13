@@ -54,14 +54,6 @@
     </div> --}}
 
     <div style="margin-bottom: 10px">
-        @if ($dataCreated)
-            <div>Notice: {{ $dataDate }} New User Data Created !</div>
-        @else
-            <div>Notice: {{ $dataDate }} New User Data Updated !</div>
-        @endif
-    </div>
-
-    <div style="margin-bottom: 10px">
         <canvas id="newUserLineChart"></canvas>
     </div>
 
@@ -76,39 +68,39 @@
     </div>
 
     <script>
-        const ctx = document.getElementById('myChart');
-        console.log('ctx:', ctx);
+        // const ctx = document.getElementById('myChart');
+        // console.log('ctx:', ctx);
 
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Example',
-                        font: {
-                            size: 18
-                        },
-                        padding: 0,
-                    },
-                    legend: true,
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                    }
-                }
-            }
-        });
+        // new Chart(ctx, {
+        //     type: 'bar',
+        //     data: {
+        //         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        //         datasets: [{
+        //             label: '# of Votes',
+        //             data: [12, 19, 3, 5, 2, 3],
+        //             borderWidth: 1
+        //         }]
+        //     },
+        //     options: {
+        //         maintainAspectRatio: false,
+        //         plugins: {
+        //             title: {
+        //                 display: true,
+        //                 text: 'Example',
+        //                 font: {
+        //                     size: 18
+        //                 },
+        //                 padding: 0,
+        //             },
+        //             legend: true,
+        //         },
+        //         scales: {
+        //             y: {
+        //                 beginAtZero: true,
+        //             }
+        //         }
+        //     }
+        // });
 
         const newUserCtx = document.getElementById('newUserLineChart');
         console.log('newUserCtx:', newUserCtx);
@@ -126,13 +118,14 @@
 
         console.log('hourLabels:', hourLabels);
 
-        const newUser = <?php echo json_encode($jsonNewUser); ?>;
+        const newUser = <?php echo json_encode($newUserApiDataDB); ?>;
         console.log('newUser:', newUser);
 
-        const newAndroidUserCount = newUser['data']['statistics'][0]['userCount'];
+        // JSON.parse()將字串轉為JSON數組
+        const newAndroidUserCount = JSON.parse(newUser[0]['user_count']);
         console.log('newAndroidUserCount:', newAndroidUserCount);
 
-        const newiOSUserCount = newUser['data']['statistics'][1]['userCount'];
+        const newiOSUserCount = JSON.parse(newUser[1]['user_count']);
         console.log('newiOSUserCount:', newiOSUserCount);
 
         new Chart(newUserCtx, {

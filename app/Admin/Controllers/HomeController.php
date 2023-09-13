@@ -38,20 +38,22 @@ class HomeController extends Controller
     {
         // dd('test view : testResult');
 
-        $dataStore = $this->newUserApiDataStore();
+        // 從DB讀取資料
+        $newUserApiDataDB = NewUserApiData::where([
+            'game_id' => 'NBS',
+            'date' => date('Y-m-d'),
+        ])->get();
+        // dd('newUserApiDataDB:', $newUserApiDataDB);
 
-        // 讀取處理結果
-        $jsonNewUser = $dataStore['jsonNewUser'];
-        $dataDate = $dataStore['dataDate'];
-        $dataCreated = $dataStore['dataCreated'];
+        $dataDate = $newUserApiDataDB[0]['date'];
+        // dd('dataDate:', $dataDate);
 
         // 頁面呈現
         $content->title('testResult');
         $content->description('Today  : ' . date('Y-m-d'));
         $content->view('chartJs440', [
-            'jsonNewUser' => $jsonNewUser,
+            'newUserApiDataDB' => $newUserApiDataDB,
             'dataDate' => $dataDate,
-            'dataCreated' => $dataCreated,
         ]);
 
         return $content;
