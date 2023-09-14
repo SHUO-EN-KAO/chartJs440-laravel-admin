@@ -45,7 +45,19 @@ class HomeController extends Controller
         ])->get();
         // dd('newUserApiDataDB:', $newUserApiDataDB);
 
-        $dataDate = $newUserApiDataDB[0]['date'];
+        // 若沒有資料則先呼叫newUserApiDataStore建立資料再讀取
+        if ($newUserApiDataDB->isEmpty()) {
+            $this->newUserApiDataStore();
+
+            $newUserApiDataDB = NewUserApiData::where([
+                'game_id' => 'NBS',
+                'date' => date('Y-m-d'),
+            ])->get();
+        }
+
+        // 若date沒資料則套用今天日期
+        $dataDate = $newUserApiDataDB->isEmpty() ?
+            date('Y-m-d') : $newUserApiDataDB[0]['date'];
         // dd('dataDate:', $dataDate);
 
         // 頁面呈現
