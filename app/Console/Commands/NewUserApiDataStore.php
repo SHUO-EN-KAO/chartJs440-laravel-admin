@@ -72,3 +72,5 @@ class NewUserApiDataStore extends Command
         // return Command::SUCCESS;
     }
 }
+
+// php artisan newUserApiData:store
