@@ -89,9 +89,9 @@ return new class extends Migration
     {
         Schema::create('user_payment_api_data', function (Blueprint $table) {
             $table->id();
-            $table->string('game_id');
-            $table->date('date');
-            $table->string('platform');
+            $table->string('game_id')->index();
+            $table->date('date')->index();
+            $table->string('platform')->index();
             $table->json('user_count');
             $table->json('revenue');
             $table->timestamps();
