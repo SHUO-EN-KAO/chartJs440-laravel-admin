@@ -130,4 +130,17 @@ class HomeController extends Controller
             'dataCreated' => $dataCreated,
         ];
     }
+
+    public function userPaymentStore()
+    {
+        dd('test view: userPaymentStore');
+
+        // API獲取資料
+        $response = Http::post('http://34.100.197.14/statistics/payment/hourly', [
+            'id' => 'NBS',
+            'date' => date('Y-m-d'),
+        ]);
+
+
+    }
 }

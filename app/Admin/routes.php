@@ -13,8 +13,9 @@ Route::group([
 
     $router->get('/', 'HomeController@index')->name('home');
 
-    $router->get('/testResult','HomeController@testResult')->name('testResult');
+    $router->get('/testResult', 'HomeController@testResult')->name('testResult');
 
-    $router->get('/newUserApiDataStore','HomeController@newUserApiDataStore')->name('newUserApiDataStore');
+    $router->get('/newUserApiDataStore', 'HomeController@newUserApiDataStore')->name('newUserApiDataStore');
 
+    $router->get('/userPaymentStore', 'HomeController@userPaymentStore')->name('userPaymentStore');
 });
