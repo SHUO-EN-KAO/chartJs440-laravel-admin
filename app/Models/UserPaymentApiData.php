@@ -16,7 +16,7 @@ class UserPaymentApiData extends Model
     protected $fillable = [
         'game_id',
         'date',
-        'plateform',
+        'platform',
         'user_count',
         'revenue',
     ];

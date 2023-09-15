@@ -17,5 +17,5 @@ Route::group([
 
     $router->get('/newUserApiDataStore', 'HomeController@newUserApiDataStore')->name('newUserApiDataStore');
 
-    $router->get('/userPaymentStore', 'HomeController@userPaymentStore')->name('userPaymentStore');
+    $router->get('/userPaymentApiDataStore', 'HomeController@userPaymentApiDataStore')->name('userPaymentApiDataStore');
 });

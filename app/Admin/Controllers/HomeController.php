@@ -9,6 +9,8 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
 use Illuminate\Support\Facades\Http;
 use App\Models\NewUserApiData;
+use App\Models\UserPaymentApiData;
+
 
 class HomeController extends Controller
 {
@@ -131,16 +133,57 @@ class HomeController extends Controller
         ];
     }
 
-    public function userPaymentStore()
+    public function userPaymentApiDataStore()
     {
-        dd('test view: userPaymentStore');
+        // dd('test view: userPaymentStore');
 
         // API獲取資料
         $response = Http::post('http://34.100.197.14/statistics/payment/hourly', [
             'id' => 'NBS',
             'date' => date('Y-m-d'),
         ]);
+        // dd('response:', $response);
 
+        // 處理response資料轉json
+        $jsonUserPayment = $response->json();
+        // dd('jsonUserPayment:', $jsonUserPayment);
 
+        // 因為資料結構中statistics內為另一層陣列
+        // 所以獨立拉出另外定義後才能對其做foreach並存進DB
+        $userPaymentStatistics = $jsonUserPayment['data']['statistics'];
+        // dd('userPaymentStatistics:', $userPaymentStatistics);
+
+        // 將API資料存入DB
+        foreach ($userPaymentStatistics as $data) {
+
+            // 查現有DB有無資料
+            $record = UserPaymentApiData::where([
+                'game_id' => $jsonUserPayment['data']['id'],
+                'date' => $jsonUserPayment['data']['date'],
+                'platform' => $data['platform'],
+            ])->first();
+
+            // 若有資料則update無資料則create
+            if ($record) {
+                $record->update([
+                    // 因為資料庫這兩個欄位已設定為存入屬性為json
+                    // 所以資料需要先json_encode才能存入
+                    'user_count' => json_encode($data['userCount']),
+                    'revenue' => json_encode($data['revenue']),
+                ]);
+            } else {
+                UserPaymentApiData::create([
+                    'game_id' => $jsonUserPayment['data']['id'],
+                    'date' => $jsonUserPayment['data']['date'],
+                    'platform' => $data['platform'],
+                    'user_count' => json_encode($data['userCount']),
+                    'revenue' => json_encode($data['revenue']),
+                ]);
+            }
+        }
+
+        return [
+            'jsonUserPayment' => $jsonUserPayment,
+        ];
     }
 }
