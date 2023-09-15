@@ -23,6 +23,13 @@
         height: 235px;
     }
 
+    #userPaymentLineChart {
+        background-color: #fff;
+        border-radius: 15px;
+        padding: 5px;
+        height: 235px;
+    }
+
     #newUserTotalPieChart {
         background-color: #fff;
         border-radius: 15px;
@@ -53,8 +60,12 @@
         <canvas id="myChart"></canvas>
     </div> --}}
 
-    <div style="margin-bottom: 10px">
+    <div style="margin-bottom: 5px">
         <canvas id="newUserLineChart"></canvas>
+    </div>
+
+    <div style="margin-bottom: 5px">
+        <canvas id="userPaymentLineChart"></canvas>
     </div>
 
     <div class="pieSection">
@@ -102,9 +113,11 @@
         //     }
         // });
 
+        // newUserLineChart
         const newUserCtx = document.getElementById('newUserLineChart');
         console.log('newUserCtx:', newUserCtx);
 
+        // 24小時x軸座標陣列
         // 寫法1
         const hourLabels = [];
         for (let i = 0; i < 24; i++) {
@@ -121,7 +134,8 @@
         const newUser = <?php echo json_encode($newUserApiDataDB); ?>;
         console.log('newUser:', newUser);
 
-        // JSON.parse()將字串轉為JSON數組
+        // JSON.parse()將字串轉為JSON數組才能給chart使用
+        // 不然純字串無法對應chart之X時間軸正常顯示
         const newAndroidUserCount = JSON.parse(newUser[0]['user_count']);
         console.log('newAndroidUserCount:', newAndroidUserCount);
 
@@ -184,6 +198,78 @@
             }
         });
 
+        // userPaymentLineChart
+        const userPaymentCtx = document.getElementById('userPaymentLineChart');
+        console.log('userPaymentCtx:', userPaymentCtx);
+
+        const userPayment = <?php echo json_encode($userPaymentApiDataDB); ?>;
+        console.log('userPayment:', userPayment);
+
+        // JSON.parse()將字串轉為JSON數組才能給chart使用
+        // 不然純字串無法對應chart之X時間軸正常顯示
+        const paymentAndroidUserCount = JSON.parse(userPayment[0]['user_count']);
+        console.log('paymentAndroidUserCount', paymentAndroidUserCount);
+
+        const paymentiOSUserCount = JSON.parse(userPayment[1]['user_count']);
+        console.log('paymentiOSUserCount', paymentiOSUserCount);
+
+        new Chart(userPaymentCtx, {
+            type: 'line',
+            data: {
+                labels: hourLabels,
+                datasets: [{
+                        label: 'AndroidUserCount',
+                        data: paymentAndroidUserCount,
+                        backgroundColor: '#943F00',
+                        borderColor: '#943F00',
+                        pointBorderColor: '#943F00',
+                        pointBackgroundColor: '#943F00',
+                    },
+                    {
+                        label: 'iOSUserCount',
+                        data: paymentiOSUserCount,
+                        backgroundColor: '#008391',
+                        borderColor: '#008391',
+                        pointBorderColor: '#008391',
+                        pointBackgroundColor: '#008391',
+                    },
+                ]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'User Payment',
+                        font: {
+                            size: 18,
+                        },
+                        padding: 0,
+                    },
+                    legend: true,
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'hour',
+                            align: 'end',
+                        },
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'users',
+                            align: 'end',
+                        },
+                    }
+                }
+            }
+        });
+
+        // newUserTotalPieChart
         const newUserTotalCtx = document.getElementById('newUserTotalPieChart');
         console.log('newUserTotalCtx:', newUserTotalCtx);
 
@@ -259,7 +345,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'New User Total2',
+                        text: 'User Payment Total',
                         font: {
                             size: 18,
                         },

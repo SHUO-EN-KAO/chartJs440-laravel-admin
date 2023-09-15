@@ -40,14 +40,15 @@ class HomeController extends Controller
     {
         // dd('test view : testResult');
 
-        // 從DB讀取資料
+        // 從DB讀取new_user_api_data資料
         $newUserApiDataDB = NewUserApiData::where([
             'game_id' => 'NBS',
             'date' => date('Y-m-d'),
         ])->get();
         // dd('newUserApiDataDB:', $newUserApiDataDB);
 
-        // 若沒有資料則先呼叫newUserApiDataStore建立資料再讀取
+        // 若new_user_api_data沒有資料
+        // 則先呼叫newUserApiDataStore建立資料再讀取
         if ($newUserApiDataDB->isEmpty()) {
             $this->newUserApiDataStore();
 
@@ -57,17 +58,31 @@ class HomeController extends Controller
             ])->get();
         }
 
-        // 若date沒資料則套用今天日期
-        $dataDate = $newUserApiDataDB->isEmpty() ?
-            date('Y-m-d') : $newUserApiDataDB[0]['date'];
-        // dd('dataDate:', $dataDate);
+        // 從DB讀取user_payment_api_data資料
+        $userPaymentApiDataDB = UserPaymentApiData::where([
+            'game_id' => 'NBS',
+            'date' => date('Y-m-d'),
+        ])->get();
+        // dd('userPaymentApiDataDB:', $userPaymentApiDataDB);
+
+        // 若user_payment_api_data沒有資料
+        // 則先呼叫userPaymentApiDataStore建立資料再讀取
+        if ($userPaymentApiDataDB->isEmpty()) {
+            $this->userPaymentApiDataStore();
+
+            $userPaymentApiDataDB = UserPaymentApiData::where([
+                'game_id' => 'NBS',
+                'date' => date('Y-m-d'),
+            ])->get();
+        }
+
 
         // 頁面呈現
         $content->title('testResult');
         $content->description('Today  : ' . date('Y-m-d'));
         $content->view('chartJs440', [
             'newUserApiDataDB' => $newUserApiDataDB,
-            'dataDate' => $dataDate,
+            'userPaymentApiDataDB' => $userPaymentApiDataDB,
         ]);
 
         return $content;
