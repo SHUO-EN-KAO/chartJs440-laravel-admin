@@ -18,4 +18,6 @@ Route::group([
     $router->get('/newUserApiDataStore', 'HomeController@newUserApiDataStore')->name('newUserApiDataStore');
 
     $router->get('/userPaymentApiDataStore', 'HomeController@userPaymentApiDataStore')->name('userPaymentApiDataStore');
+
+    $router->get('/form/testForm', 'HomeController@testForm')->name('testForm');
 });

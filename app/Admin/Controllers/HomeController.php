@@ -10,6 +10,7 @@ use Encore\Admin\Layout\Row;
 use Illuminate\Support\Facades\Http;
 use App\Models\NewUserApiData;
 use App\Models\UserPaymentApiData;
+use App\Admin\Forms\Test;
 
 
 class HomeController extends Controller
@@ -247,5 +248,13 @@ class HomeController extends Controller
         return [
             'jsonUserPayment' => $jsonUserPayment,
         ];
+    }
+
+    public function testForm(Content $content)
+    {
+        $content->title('TestForm');
+        $content->row(new Test());
+
+        return $content;
     }
 }
