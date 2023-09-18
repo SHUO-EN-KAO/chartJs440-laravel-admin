@@ -35,5 +35,7 @@ class Kernel extends ConsoleKernel
 
     protected $commands = [
         \App\Console\Commands\NewUserApiDataStore::class,
+        \App\Console\Commands\UserPaymentApiDataStore::class,
+
     ];
 }
