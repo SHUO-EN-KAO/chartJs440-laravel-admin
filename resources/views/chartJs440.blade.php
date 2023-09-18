@@ -53,6 +53,10 @@
         width: 50%;
         margin: 2px;
     }
+
+    .dataSelection {
+        text-align: center;
+    }
 </style>
 
 <body>
@@ -75,6 +79,13 @@
 
         <div class="pie">
             <canvas id="paymentTotalPieChart"></canvas>
+            <div class="dataSelection">
+                <label for="dataSelect">Select Payment Data:</label>
+                <select id="dataSelect" onchange="updateUserPaymentTotalPieChart()">
+                    <option value="revenueTotal">Revenue Total</option>
+                    <option value="userTotal">User Total</option>
+                </select>
+            </div>
         </div>
     </div>
 
@@ -293,7 +304,7 @@
             }
         });
 
-        // newUserTotalPieChart
+        // 定義newUserTotalPieChart
         const newUserTotalCtx = document.getElementById('newUserTotalPieChart');
         console.log('newUserTotalCtx:', newUserTotalCtx);
 
@@ -309,45 +320,46 @@
             );
         console.log('newiOSUserTotal:', newiOSUserTotal);
 
-
-        new Chart(newUserTotalCtx, {
-            type: 'pie',
-            data: {
-                labels: [
-                    'Android Users: ' + newAndroidUserTotal,
-                    'iOS Users: ' + newiOSUserTotal
-                ],
-                datasets: [{
-                    data: [
-                        newAndroidUserTotal,
-                        newiOSUserTotal
+        // 創圖newUserTotalPieChart
+        const newUserTotalPieChart =
+            new Chart(newUserTotalCtx, {
+                type: 'pie',
+                data: {
+                    labels: [
+                        'Android Users: ' + newAndroidUserTotal,
+                        'iOS Users: ' + newiOSUserTotal
                     ],
-                    backgroundColor: ['#943F00', '#008391'],
-                    hoverOffset: 10,
-                }],
-            },
-            options: {
-                maintainAspectRatio: false,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'New User Total',
-                        font: {
-                            size: 18,
-                        },
-                        padding: 0,
-                    },
-                    legend: {
-                        display: true,
-                        labels: {
+                    datasets: [{
+                        data: [
+                            newAndroidUserTotal,
+                            newiOSUserTotal
+                        ],
+                        backgroundColor: ['#943F00', '#008391'],
+                        hoverOffset: 10,
+                    }],
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'New User Total',
                             font: {
-                                weight: 'bold'
+                                size: 18,
+                            },
+                            padding: 0,
+                        },
+                        legend: {
+                            display: true,
+                            labels: {
+                                font: {
+                                    weight: 'bold'
+                                }
                             }
                         }
-                    }
-                },
-            }
-        });
+                    },
+                }
+            });
 
         // 定義userPaymentTotalPieChart
         const paymentTotalCtx = document.getElementById('paymentTotalPieChart');
@@ -364,48 +376,100 @@
         );
         console.log('paymentiOSUserTotal:', paymentiOSUserTotal);
 
-        // 建立userPaymentTotalPieChart
-        new Chart(paymentTotalCtx, {
-            type: 'pie',
-            data: {
-                labels: [
-                    'Android Users: ' + paymentAndroidUserTotal,
-                    'iOS Users: ' + paymentiOSUserTotal
-                ],
-                datasets: [{
-                    data: [
-                        paymentAndroidUserTotal,
-                        paymentiOSUserTotal
+        const paymentAndroidRevenueTotal =
+            paymentAndroidRevenue.reduce(
+                (accumulator, currentValue) => accumulator + currentValue, 0
+            );
+        console.log('paymentAndroidRevenueTotal:', paymentAndroidRevenueTotal);
+
+        const paymentiOSRevenueTotal =
+            paymentiOSRevenue.reduce(
+                (accumulator, currentValue) => accumulator + currentValue, 0
+            );
+        console.log('paymentiOSRevenueTotal:', paymentiOSRevenueTotal);
+
+        // 建圖userPaymentTotalPieChart
+        const userPaymentTotalPieChart =
+            new Chart(paymentTotalCtx, {
+                type: 'pie',
+                data: {
+                    labels: [
+                        'Android Rev: ' + paymentAndroidRevenueTotal,
+                        'iOS Rev: ' + paymentiOSRevenueTotal,
                     ],
-                    backgroundColor: [
-                        '#D95B04',
-                        '#04CBD9'
-                    ],
-                    hoverOffset: 10,
-                }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'User Payment Total',
-                        font: {
-                            size: 18,
-                        },
-                        padding: 0,
-                    },
-                    legend: {
-                        display: true,
-                        labels: {
+                    datasets: [{
+                        data: [
+                            paymentAndroidRevenueTotal,
+                            paymentiOSRevenueTotal,
+                        ],
+                        backgroundColor: [
+                            '#8F8100',
+                            '#1F008F'
+                        ],
+                        hoverOffset: 10,
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'User Payment Total',
                             font: {
-                                weight: 'bold'
+                                size: 18,
+                            },
+                            padding: 0,
+                        },
+                        legend: {
+                            display: true,
+                            labels: {
+                                font: {
+                                    weight: 'bold'
+                                }
                             }
                         }
                     }
                 }
+            })
+
+        function updateUserPaymentTotalPieChart() {
+            const selectedOption = document.getElementById('dataSelect').value;
+
+            if (selectedOption === 'revenueTotal') {
+                userPaymentTotalPieChart.data.labels = [
+                    'Android Rev: ' + paymentAndroidRevenueTotal,
+                    'iOS Rev: ' + paymentiOSRevenueTotal,
+                ];
+
+                // 因為資料為數組所以需要加索引[0]
+                userPaymentTotalPieChart.data.datasets[0].data = [
+                    paymentAndroidRevenueTotal,
+                    paymentiOSRevenueTotal,
+                ];
+
+                userPaymentTotalPieChart.data.datasets[0].backgroundColor = [
+                    '#8F8100',
+                    '#1F008F'
+                ]
+            } else if (selectedOption === 'userTotal') {
+                userPaymentTotalPieChart.data.labels = [
+                    'Android Users: ' + paymentAndroidUserTotal,
+                    'iOS Users: ' + paymentiOSUserTotal,
+                ];
+
+                userPaymentTotalPieChart.data.datasets[0].data = [
+                    paymentAndroidUserTotal,
+                    paymentiOSUserTotal,
+                ];
+
+                userPaymentTotalPieChart.data.datasets[0].backgroundColor = [
+                    '#D95B04',
+                    '#04CBD9',
+                ];
             }
-        })
+
+            userPaymentTotalPieChart.update();
+        }
     </script>
 </body>
 
