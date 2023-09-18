@@ -16,24 +16,71 @@ class HomeController extends Controller
 {
     public function index(Content $content)
     {
-        return $content
-            ->title('Dashboard')
-            ->description('Description...')
-            ->row(Dashboard::title())
-            ->row(function (Row $row) {
+        // return $content
+        //     ->title('Dashboard')
+        //     ->description('Description...')
+        //     ->row(Dashboard::title())
+        //     ->row(function (Row $row) {
 
-                $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::environment());
-                });
+        //         $row->column(4, function (Column $column) {
+        //             $column->append(Dashboard::environment());
+        //         });
 
-                $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::extensions());
-                });
+        //         $row->column(4, function (Column $column) {
+        //             $column->append(Dashboard::extensions());
+        //         });
 
-                $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::dependencies());
-                });
-            });
+        //         $row->column(4, function (Column $column) {
+        //             $column->append(Dashboard::dependencies());
+        //         });
+        //     });
+
+        // 從DB讀取new_user_api_data資料
+        $newUserApiDataDB = NewUserApiData::where([
+            'game_id' => 'NBS',
+            'date' => date('Y-m-d'),
+        ])->get();
+        // dd('newUserApiDataDB:', $newUserApiDataDB);
+
+        // 若new_user_api_data沒有資料
+        // 則先呼叫newUserApiDataStore建立資料再讀取
+        if ($newUserApiDataDB->isEmpty()) {
+            $this->newUserApiDataStore();
+
+            $newUserApiDataDB = NewUserApiData::where([
+                'game_id' => 'NBS',
+                'date' => date('Y-m-d'),
+            ])->get();
+        }
+
+        // 從DB讀取user_payment_api_data資料
+        $userPaymentApiDataDB = UserPaymentApiData::where([
+            'game_id' => 'NBS',
+            'date' => date('Y-m-d'),
+        ])->get();
+        // dd('userPaymentApiDataDB:', $userPaymentApiDataDB);
+
+        // 若user_payment_api_data沒有資料
+        // 則先呼叫userPaymentApiDataStore建立資料再讀取
+        if ($userPaymentApiDataDB->isEmpty()) {
+            $this->userPaymentApiDataStore();
+
+            $userPaymentApiDataDB = UserPaymentApiData::where([
+                'game_id' => 'NBS',
+                'date' => date('Y-m-d'),
+            ])->get();
+        }
+
+
+        // 頁面呈現
+        $content->title('Index');
+        $content->description('Today  : ' . date('Y-m-d'));
+        $content->view('chartJs440', [
+            'newUserApiDataDB' => $newUserApiDataDB,
+            'userPaymentApiDataDB' => $userPaymentApiDataDB,
+        ]);
+
+        return $content;
     }
 
     public function testResult(Content $content)
