@@ -36,7 +36,7 @@
         padding: 5px;
     }
 
-    #newUserTotalPieChart2 {
+    #paymentTotalPieChart {
         background-color: #fff;
         border-radius: 15px;
         padding: 5px;
@@ -74,7 +74,7 @@
         </div>
 
         <div class="pie">
-            <canvas id="newUserTotalPieChart2"></canvas>
+            <canvas id="paymentTotalPieChart"></canvas>
         </div>
     </div>
 
@@ -131,6 +131,7 @@
 
         console.log('hourLabels:', hourLabels);
 
+        // 取controller回傳值來定義
         const newUser = <?php echo json_encode($newUserApiDataDB); ?>;
         console.log('newUser:', newUser);
 
@@ -147,7 +148,7 @@
             data: {
                 labels: hourLabels,
                 datasets: [{
-                        label: 'AndroidUserCount',
+                        label: 'Android Users',
                         data: newAndroidUserCount,
                         backgroundColor: '#943F00',
                         borderColor: '#943F00',
@@ -155,7 +156,7 @@
                         pointBackgroundColor: '#943F00',
                     },
                     {
-                        label: 'iOSUserCount',
+                        label: 'iOS Users',
                         data: newiOSUserCount,
                         backgroundColor: '#008391',
                         borderColor: '#008391',
@@ -202,6 +203,7 @@
         const userPaymentCtx = document.getElementById('userPaymentLineChart');
         console.log('userPaymentCtx:', userPaymentCtx);
 
+        // 取controller回傳值來定義
         const userPayment = <?php echo json_encode($userPaymentApiDataDB); ?>;
         console.log('userPayment:', userPayment);
 
@@ -213,26 +215,48 @@
         const paymentiOSUserCount = JSON.parse(userPayment[1]['user_count']);
         console.log('paymentiOSUserCount', paymentiOSUserCount);
 
+        const paymentAndroidRevenue = JSON.parse(userPayment[0]['revenue']);
+        console.log('paymentAndroidRevenue:', paymentAndroidRevenue);
+
+        const paymentiOSRevenue = JSON.parse(userPayment[1]['revenue']);
+        console.log('paymentiOSRevenue', paymentiOSRevenue);
+
         new Chart(userPaymentCtx, {
             type: 'line',
             data: {
                 labels: hourLabels,
                 datasets: [{
-                        label: 'AndroidUserCount',
+                        label: 'Android Users',
                         data: paymentAndroidUserCount,
-                        backgroundColor: '#943F00',
-                        borderColor: '#943F00',
-                        pointBorderColor: '#943F00',
-                        pointBackgroundColor: '#943F00',
+                        backgroundColor: '#D95B04',
+                        borderColor: '#D95B04',
+                        pointBorderColor: '#D95B04',
+                        pointBackgroundColor: '#D95B04',
                     },
                     {
-                        label: 'iOSUserCount',
+                        label: 'iOS Users',
                         data: paymentiOSUserCount,
-                        backgroundColor: '#008391',
-                        borderColor: '#008391',
-                        pointBorderColor: '#008391',
-                        pointBackgroundColor: '#008391',
+                        backgroundColor: '#04CBD9',
+                        borderColor: '#04CBD9',
+                        pointBorderColor: '#04CBD9',
+                        pointBackgroundColor: '#04CBD9',
                     },
+                    {
+                        label: 'Android Revenue',
+                        data: paymentAndroidRevenue,
+                        backgroundColor: '#8F8100',
+                        borderColor: '#8F8100',
+                        pointBorderColor: '#8F8100',
+                        pointBackgroundColor: '#8F8100',
+                    },
+                    {
+                        label: 'iOS Revenue',
+                        data: paymentiOSRevenue,
+                        backgroundColor: '#1F008F',
+                        borderColor: '#1F008F',
+                        pointBorderColor: '#1F008F',
+                        pointBackgroundColor: '#1F008F'
+                    }
                 ]
             },
             options: {
@@ -276,13 +300,13 @@
         const newAndroidUserTotal =
             newAndroidUserCount.reduce(
                 (accumulator, currentValue) => accumulator + currentValue, 0
-            )
+            );
         console.log('newAndroidUserTotal:', newAndroidUserTotal);
 
         const newiOSUserTotal =
             newiOSUserCount.reduce(
                 (accumulator, currentValue) => accumulator + currentValue, 0
-            )
+            );
         console.log('newiOSUserTotal:', newiOSUserTotal);
 
 
@@ -290,8 +314,8 @@
             type: 'pie',
             data: {
                 labels: [
-                    'Android: ' + newAndroidUserTotal,
-                    'iOS: ' + newiOSUserTotal
+                    'Android Users: ' + newAndroidUserTotal,
+                    'iOS Users: ' + newiOSUserTotal
                 ],
                 datasets: [{
                     data: [
@@ -325,20 +349,40 @@
             }
         });
 
-        const newUserTotal2Ctx = document.getElementById('newUserTotalPieChart2');
+        // 定義userPaymentTotalPieChart
+        const paymentTotalCtx = document.getElementById('paymentTotalPieChart');
+        console.log('paymentTotalCtx:', paymentTotalCtx);
 
-        new Chart(newUserTotal2Ctx, {
+        const paymentAndroidUserTotal =
+            paymentAndroidUserCount.reduce(
+                (accumulator, currentValue) => accumulator + currentValue, 0
+            );
+        console.log('paymentAndroidUserTotal:', paymentAndroidUserTotal);
+
+        const paymentiOSUserTotal = paymentiOSUserCount.reduce(
+            (accumulator, currentValue) => accumulator + currentValue, 0
+        );
+        console.log('paymentiOSUserTotal:', paymentiOSUserTotal);
+
+        // 建立userPaymentTotalPieChart
+        new Chart(paymentTotalCtx, {
             type: 'pie',
             data: {
-                labels: ['Android', 'iOS'],
+                labels: [
+                    'Android Users: ' + paymentAndroidUserTotal,
+                    'iOS Users: ' + paymentiOSUserTotal
+                ],
                 datasets: [{
                     data: [
-                        newAndroidUserTotal,
-                        newiOSUserTotal
+                        paymentAndroidUserTotal,
+                        paymentiOSUserTotal
                     ],
-                    backgroundColor: ['#943F00', '#008391'],
+                    backgroundColor: [
+                        '#D95B04',
+                        '#04CBD9'
+                    ],
                     hoverOffset: 10,
-                }],
+                }]
             },
             options: {
                 maintainAspectRatio: false,
@@ -351,10 +395,17 @@
                         },
                         padding: 0,
                     },
-                    legend: true,
-                },
+                    legend: {
+                        display: true,
+                        labels: {
+                            font: {
+                                weight: 'bold'
+                            }
+                        }
+                    }
+                }
             }
-        });
+        })
     </script>
 </body>
 
