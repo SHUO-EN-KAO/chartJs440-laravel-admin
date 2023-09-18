@@ -19,6 +19,8 @@ class Kernel extends ConsoleKernel
 
         // php artisan schedule:work
         $schedule->command('newUserApiData:store')->everyTwoMinutes();
+
+        $schedule->command('userPaymentApiData:store')->everyTwoMinutes();
     }
 
     /**
