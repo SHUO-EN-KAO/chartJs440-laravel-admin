@@ -47,6 +47,9 @@ class NewUserForm extends Form
         // 定義$result給頁面傳值使用
         $result = $jsonData;
 
+        // 測試$result是否有值
+        // return $result;
+
         // admin_success('Processed successfully.');
 
         // 頁面傳值用
