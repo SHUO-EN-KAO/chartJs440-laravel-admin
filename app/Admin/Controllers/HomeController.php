@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Http;
 use App\Models\NewUserApiData;
 use App\Models\UserPaymentApiData;
 use App\Admin\Forms\Test;
+use App\Admin\Forms\NewUserForm;
+
 
 
 class HomeController extends Controller
@@ -254,6 +256,14 @@ class HomeController extends Controller
     {
         $content->title('TestForm');
         $content->row(new Test());
+
+        return $content;
+    }
+
+    public function newUserForm(Content $content)
+    {
+        $content->title('Search New User Data');
+        $content->row(new NewUserForm());
 
         return $content;
     }
