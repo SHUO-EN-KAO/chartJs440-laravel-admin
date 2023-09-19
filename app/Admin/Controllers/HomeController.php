@@ -265,6 +265,47 @@ class HomeController extends Controller
         $content->title('Search New User Data');
         $content->row(new NewUserForm());
 
+        // 取值給view使用
+        // 若有從NewUserForm傳回result值 則可從session取值
+        if ($result = session('result')) {
+            // 測試$result是否有值
+            // return $result;
+
+            // 取AndroidUserCount數組值
+            $androidUserCount = $result['data']['statistics'][0]['userCount'];
+            // 測試$androidUserCount是否有值
+            // return $androidUserCount;
+
+            // 取AndroidUserCount數組值總和
+            $sumA = 0;
+            foreach ($androidUserCount as $countA) {
+                $sumA += $countA;
+            };
+            // 測$sumA是否有值
+            // return $sumA;
+
+            // 取iOSUserCount數組值
+            $iOSUserCount = $result['data']['statistics'][1]['userCount'];
+            // 測$iOSUserCount是否有值
+            // return $iOSUserCount;
+
+            // 取$iOSUserCount數組值總和
+            $sumI = 0;
+            foreach ($iOSUserCount as $countI) {
+                $sumI += $countI;
+            };
+            // 測$sumI是否有值
+            // return $sumI;
+
+            $content->view('newUser', [
+                'result' => $result,
+                'androidUserCount' => $androidUserCount,
+                'sumA' => $sumA,
+                'iOSUserCount' => $iOSUserCount,
+                'sumI' => $sumI,
+            ]);
+        };
+
         return $content;
     }
 }
