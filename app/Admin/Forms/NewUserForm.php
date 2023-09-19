@@ -41,6 +41,9 @@ class NewUserForm extends Form
                 ]
             );
 
+        // 測試$response是否有值
+        // return $response;
+
         // 獲得API值$response轉為json array給頁面傳值使用
         $jsonData = $response->json();
 
