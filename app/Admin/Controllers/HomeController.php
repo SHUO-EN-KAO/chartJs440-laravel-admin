@@ -12,6 +12,7 @@ use App\Models\NewUserApiData;
 use App\Models\UserPaymentApiData;
 use App\Admin\Forms\Test;
 use App\Admin\Forms\NewUserForm;
+use App\Admin\Forms\UserPaymentForm;
 use Illuminate\Http\Request;
 
 
@@ -263,11 +264,11 @@ class HomeController extends Controller
     public function newUserForm(Content $content)
     {
         $content->title('New User Data');
-        // $content->description('<strong>Today: ' . date('Y-m-d') . '</strong>');
         $content->row(new NewUserForm());
 
         // 取值給view使用
-        // 若有從NewUserForm傳回result及date值 則可從session取值
+        // 若有從NewUserForm傳回result及date值 
+        // 則可從session取值
         if ($result = session('result')) {
             // 測試$result是否有值
             // return $result;
@@ -310,6 +311,95 @@ class HomeController extends Controller
                 'iOSUserCount' => $iOSUserCount,
                 'sumI' => $sumI,
             ]);
+        };
+
+        return $content;
+    }
+
+    public function userPaymentForm(Content $content)
+    {
+        $content->title('User Payment Data');
+        $content->row(new UserPaymentForm());
+
+        // 取值給view用
+        // 若有從UserPaymentForm回傳$result及$date值
+        // 則可從session取值
+        if ($result = session('result')) {
+            // 測$result值
+            // return $result;
+
+            // 取$date值
+            $date = session('date');
+            // 測$date值
+            // return $date;
+
+            // 取$androidUserCount數組值
+            $androidUserCount = $result['data']['statistics'][0]['userCount'];
+            // 測$androidUserCount值
+            // return $androidUserCount;
+
+            // 取$androidUserRev數組值
+            $androidUserRev = $result['data']['statistics'][0]['revenue'];
+            // 測$androidUserRev數組值
+            // return $androidUserRev;
+
+            // 取$androidUserCount加總
+            $sumAU = 0;
+            foreach ($androidUserCount as $countA) {
+                $sumAU += $countA;
+            };
+            // 測$sumA值
+            // return $sumAU;
+
+            // 取$androidUserRev加總
+            $sumAR = 0;
+            foreach ($androidUserRev as $revA) {
+                $sumAR += $revA;
+            };
+            // 測$sumAR值
+            // return $sumAR;
+
+            // 取$iOSUserCount數組值
+            $iOSUserCount = $result['data']['statistics'][1]['userCount'];
+            // 測$iOSUserCount
+            // return $iOSUserCount;
+
+            // 取$iOSUserRev數組值
+            $iOSUserRev = $result['data']['statistics'][1]['revenue'];
+            // 測$iOSUserRev值
+            // return $iOSUserRev;
+
+            // 取$iOSUserCount加總
+            $sumIU = 0;
+            foreach ($iOSUserCount as $countI) {
+                $sumIU += $countI;
+            };
+            // 測$sumIU值
+            // return $sumIU;
+
+            // 取$iOSUserRev加總
+            $sumIR = 0;
+            foreach ($iOSUserRev as $revI) {
+                $sumIR += $revI;
+            };
+            // 測$sumIR值
+            // return $sumIR;
+
+            $content->view(
+                'userPayment',
+                [
+                    'result' => $result,
+                    'date' => $date,
+                    'androidUserCount' => $androidUserCount,
+                    'androidUserRev' => $androidUserRev,
+                    'sumAU' => $sumAU,
+                    'sumAR' => $sumAR,
+                    'iOSUserCount' => $iOSUserCount,
+                    'iOSUserRev' => $iOSUserRev,
+                    'sumIU' => $sumIU,
+                    'sumIR' => $sumIR,
+                ]
+            );
         };
 
         return $content;
