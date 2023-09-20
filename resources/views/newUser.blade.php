@@ -22,6 +22,10 @@
 </head>
 
 <body>
+    <div>
+        <strong style="color:darkslateblue">Data Date: {{ $date }}</strong>
+    </div>
+
     {{-- chartJs --}}
     <div class="chartSection">
         <div class="chart">

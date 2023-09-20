@@ -12,7 +12,7 @@ use App\Models\NewUserApiData;
 use App\Models\UserPaymentApiData;
 use App\Admin\Forms\Test;
 use App\Admin\Forms\NewUserForm;
-
+use Illuminate\Http\Request;
 
 
 class HomeController extends Controller
@@ -77,7 +77,7 @@ class HomeController extends Controller
 
         // 頁面呈現
         $content->title('Index');
-        $content->description('Today  : ' . date('Y-m-d'));
+        $content->description('<strong>Today: ' . date('Y-m-d') . '</strong>');
         $content->view('chartJs440', [
             'newUserApiDataDB' => $newUserApiDataDB,
             'userPaymentApiDataDB' => $userPaymentApiDataDB,
@@ -262,14 +262,19 @@ class HomeController extends Controller
 
     public function newUserForm(Content $content)
     {
-        $content->title('Search New User Data');
+        $content->title('New User Data');
+        // $content->description('<strong>Today: ' . date('Y-m-d') . '</strong>');
         $content->row(new NewUserForm());
 
         // 取值給view使用
-        // 若有從NewUserForm傳回result值 則可從session取值
+        // 若有從NewUserForm傳回result及date值 則可從session取值
         if ($result = session('result')) {
             // 測試$result是否有值
             // return $result;
+
+            $date = session('date');
+            // 測試$date是否有值
+            // return $date;
 
             // 取AndroidUserCount數組值
             $androidUserCount = $result['data']['statistics'][0]['userCount'];
@@ -299,6 +304,7 @@ class HomeController extends Controller
 
             $content->view('newUser', [
                 'result' => $result,
+                'date' => $date,
                 'androidUserCount' => $androidUserCount,
                 'sumA' => $sumA,
                 'iOSUserCount' => $iOSUserCount,

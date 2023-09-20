@@ -56,7 +56,10 @@ class NewUserForm extends Form
         // admin_success('Processed successfully.');
 
         // 頁面傳值用
-        return back()->with(['result' => $result]);
+        return back()->with([
+            'result' => $result,
+            'date' => $date,
+        ]);
     }
 
     /**
