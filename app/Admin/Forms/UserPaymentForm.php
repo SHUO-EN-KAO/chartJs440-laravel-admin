@@ -5,6 +5,7 @@ namespace App\Admin\Forms;
 
 use Encore\Admin\Widgets\Form;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class UserPaymentForm extends Form
 {
@@ -13,7 +14,7 @@ class UserPaymentForm extends Form
      *
      * @var string
      */
-    public $title = '';
+    public $title = 'Search User Payment Data';
 
     /**
      * Handle the form request.
@@ -26,19 +27,54 @@ class UserPaymentForm extends Form
     {
         //dump($request->all());
 
-        admin_success('Processed successfully.');
+        // 定義表單填入後傳給API之變數
+        $id = $request->input('id');
+        $date = $request->input('date');
 
-        return back();
+        // 從API來源取值
+        $response = Http::post(
+            'http://34.100.197.14/statistics/payment/hourly',
+            [
+                'id' => $id,
+                'date' => $date,
+            ]
+        );
+        // 測$response是否有值
+        // return $response;
+
+        // 測$date是否有值
+        // return $date;
+
+        // 轉json array給頁面傳值用
+        $jsonData = $response->json();
+
+        // 定義$result給頁面傳值用
+        $result = $jsonData;
+        // 測$result 是否有值
+        // return $result;
+
+        // 頁面傳值用
+        return back()->with([
+            'result' => $result,
+            'date' => $date,
+        ]);
     }
 
     /**
      * Build a form here.
      */
+
+    //  建立表單格式內容
     public function form()
     {
-        $this->text('name')->rules('required');
-        $this->email('email')->rules('email');
-        $this->datetime('created_at');
+        $this->select('id', 'ID:')->options(
+            [
+                'NBS' => 'NBS',
+                'TEST' => 'TEST',
+            ]
+        )->rules('required');
+
+        $this->date('date', 'Date:')->rules('required');
     }
 
     /**
@@ -46,12 +82,13 @@ class UserPaymentForm extends Form
      *
      * @return array $data
      */
+
+    // 預設自動帶入表單值
     public function data()
     {
         return [
-            'name'       => 'John Doe',
-            'email'      => 'John.Doe@gmail.com',
-            'created_at' => now(),
+            'id' => 'NBS',
+            'date' => date('Y-m-d'),
         ];
     }
 }
