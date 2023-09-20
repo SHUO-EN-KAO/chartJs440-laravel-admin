@@ -39,7 +39,7 @@
 
     {{-- dataTableJs --}}
     <div class="dataTable">
-        <table data-order="" id="" class="display" style="width:100%">
+        <table data-order="" id="newUserDataTable" class="display" style="width:100%">
             <thead>
                 <tr>
                     <th>Hour</th>
@@ -163,10 +163,25 @@
 
     {{-- dataTablejs --}}
     <script>
-        new DataTable('table.display', {
-            searching: false,
-            paging: false,
-        });
+        const newUserDataTable =
+            new DataTable('#newUserDataTable', {
+                columnDefs: [{
+                        width: '30%',
+                        targets: 0
+                    },
+                    {
+                        width: '35%',
+                        targets: 1
+                    },
+                    {
+                        width: '35%',
+                        targets: 2
+                    },
+                ],
+                searching: false,
+                paging: false,
+                info: false,
+            });
     </script>
 
 </body>
