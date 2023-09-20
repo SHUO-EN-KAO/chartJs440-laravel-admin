@@ -39,23 +39,23 @@
             <thead>
                 <tr>
                     <th>Hour</th>
-                    <th>Android Users</th>
-                    <th>iOS Users</th>
+                    <th style="color:#943F00">Android Users</th>
+                    <th style="color:#008391">iOS Users</th>
                 </tr>
             </thead>
             <tbody>
                 @for ($i = 0; $i < 24; $i++)
                     <tr>
                         <td>{{ $i }}:00</td>
-                        <td>{{ $androidUserCount[$i] }}</td>
-                        <td>{{ $iOSUserCount[$i] }}</td>
+                        <td style="color:#943F00">{{ $androidUserCount[$i] }}</td>
+                        <td style="color:#008391">{{ $iOSUserCount[$i] }}</td>
                     </tr>
                 @endfor
 
                 <tr>
-                    <td>Total</td>
-                    <td>{{ $sumA }}</td>
-                    <td>{{ $sumI }}</td>
+                    <td><strong>Total</strong></td>
+                    <td><strong>{{ $sumA }}</strong></td>
+                    <td><strong>{{ $sumI }}</strong></td>
                 </tr>
             </tbody>
         </table>
