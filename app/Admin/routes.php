@@ -22,4 +22,6 @@ Route::group([
     $router->get('/form/testForm', 'HomeController@testForm')->name('testForm');
 
     $router->get('/form/newUserForm', 'HomeController@newUserForm')->name('newUserForm');
+
+    $router->get('/form/userPaymentForm', 'HomeController@userPaymentForm')->name('userPaymentForm');
 });
