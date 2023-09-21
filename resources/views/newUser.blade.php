@@ -27,15 +27,11 @@
     </div>
 
     {{-- chartJs --}}
-    <div class="chartSection">
+    {{-- <div class="chartSection">
         <div class="chart">
             <canvas id=newUserLineChart></canvas>
         </div>
-
-        {{-- <div class="chart">
-            <canvas id=newUserPieChart></canvas>
-        </div> --}}
-    </div>
+    </div> --}}
 
     {{-- dataTableJs --}}
     <div class="dataTable">
@@ -51,30 +47,31 @@
                 @for ($i = 0; $i < 24; $i++)
                     <tr>
                         <td>{{ $i }}:00</td>
-                        <td style="color:#943F00">{{ $androidUserCount[$i] }}</td>
-                        <td style="color:#008391">{{ $iOSUserCount[$i] }}</td>
+                        <td style="color:#943F00">{{ $newAndroidUsers[$i] }}</td>
+                        <td style="color:#008391">{{ $newiOSUsers[$i] }}</td>
                     </tr>
                 @endfor
 
                 <tr>
                     <td><strong>Total</strong></td>
-                    <td><strong>{{ $sumA }}</strong></td>
-                    <td><strong>{{ $sumI }}</strong></td>
+                    <td style="color:#943F00"><strong>{{ $sumA }}</strong></td>
+                    <td style="color:#008391"><strong>{{ $sumI }}</strong></td>
                 </tr>
             </tbody>
         </table>
     </div>
 
     {{-- chartJs --}}
-    <script>
+    {{-- <script>
         // const不可被重新賦值
         // let可以被重新賦值
 
         // 取controller回傳$result值來定義newUserData
         // controller傳來$result值為數組
         // 數組必須json_encode轉為字串才能初始化給JavaScript使用
-        const newUserData = <?php echo json_encode($result); ?>;
-        console.log('newUserData:', newUserData);
+        // const newUserData = 
+        // <?php echo json_encode($result); ?>;
+        // console.log('newUserData:', newUserData);
 
         // 定義線圖ctx
         const newUserLineCtx = document.getElementById('newUserLineChart');
@@ -159,7 +156,7 @@
                     },
                 }
             })
-    </script>
+    </script> --}}
 
     {{-- dataTablejs --}}
     <script>

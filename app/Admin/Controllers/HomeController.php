@@ -269,46 +269,61 @@ class HomeController extends Controller
         // 取值給view使用
         // 若有從NewUserForm傳回result及date值 
         // 則可從session取值
-        if ($result = session('result')) {
-            // 測試$result是否有值
-            // return $result;
-
-            $date = session('date');
+        if ($date = session('date')) {
             // 測試$date是否有值
             // return $date;
 
-            // 取AndroidUserCount數組值
-            $androidUserCount = $result['data']['statistics'][0]['userCount'];
-            // 測試$androidUserCount是否有值
-            // return $androidUserCount;
+            // 取$result值
+            $result = session('result');
+            // 測$result值
+            // $return_result = [
+            //     'result' => $result,
+            //     'dataType' => gettype($result),
+            // ];
+            // return $return_result;
 
-            // 取AndroidUserCount數組值總和
-            $sumA = 0;
-            foreach ($androidUserCount as $countA) {
-                $sumA += $countA;
-            };
-            // 測$sumA是否有值
-            // return $sumA;
+            // 取$newAndroidUsers值
+            $newAndroidUsers = session('newAndroidUsers');
+            // 測$newAndroidUsers值
+            // $return_newAndroidUsers = [
+            //     'newAndroidUsers' => $newAndroidUsers,
+            //     'dataType' => gettype($newAndroidUsers),
+            // ];
+            // return $return_newAndroidUsers;
 
-            // 取iOSUserCount數組值
-            $iOSUserCount = $result['data']['statistics'][1]['userCount'];
-            // 測$iOSUserCount是否有值
-            // return $iOSUserCount;
+            // 取$newiOSUsers值
+            $newiOSUsers = session('newiOSUsers');
+            // 測$newiOSUsers值
+            // $return_newiOSUsers = [
+            //     'newiOSUsers' => $newiOSUsers,
+            //     'dataType' => gettype($newiOSUsers),
+            // ];
+            // return $return_newiOSUsers;
 
-            // 取$iOSUserCount數組值總和
-            $sumI = 0;
-            foreach ($iOSUserCount as $countI) {
-                $sumI += $countI;
-            };
-            // 測$sumI是否有值
-            // return $sumI;
+            // 取$newAndroidUsers加總$sumA
+            $sumA = session('sumA');
+            // 測$sumA值
+            // $return_sumA = [
+            //     'sumA' => $sumA,
+            //     'dataType' => gettype($sumA),
+            // ];
+            // return $return_sumA;
+
+            // 取$newiOSUsers加總$sumI
+            $sumI = session('sumI');
+            // 測$sumI值
+            // $return_sumI = [
+            //     'sumI' => $sumI,
+            //     'dataType' => gettype($sumI),
+            // ];
+            // return $return_sumI;
 
             $content->view('newUser', [
                 'result' => $result,
                 'date' => $date,
-                'androidUserCount' => $androidUserCount,
+                'newAndroidUsers' => $newAndroidUsers,
+                'newiOSUsers' => $newiOSUsers,
                 'sumA' => $sumA,
-                'iOSUserCount' => $iOSUserCount,
                 'sumI' => $sumI,
             ]);
         };

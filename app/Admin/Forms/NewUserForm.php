@@ -5,7 +5,7 @@ namespace App\Admin\Forms;
 
 use Encore\Admin\Widgets\Form;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use App\Models\NewUserApiData;
 
 class NewUserForm extends Form
 {
@@ -27,39 +27,75 @@ class NewUserForm extends Form
     {
         //dump($request->all());
 
-        // 定義表單傳給API之變數
+        // 定義表單填入之變數
         $id = $request->input('id');
         $date = $request->input('date');
 
-        // 獲取post API來源值
-        $response =
-            Http::post(
-                'http://34.100.197.14/statistics/user/new/hourly',
-                [
-                    'id' => $id,
-                    'date' => $date,
-                ]
-            );
+        // 從DB取資料
+        $newUserApiDataDB =
+            NewUserApiData::where('game_id', $id)
+            ->where('date', $date)
+            ->get();
+        // 測$newUserApiDataDB值
+        // return $newUserApiDataDB;
 
-        // 測試$response是否有值
-        // return $response;
+        // 若DB有資料則呈現blade
+        // 若無資則顯示No Data
+        if (!$newUserApiDataDB->isEmpty()) {
+            $result = $newUserApiDataDB;
+            // 測$result值及類型
+            // $returnResult = [
+            //     'result' => $result,
+            //     'dataType' => gettype($result),
+            // ];
+            // return $returnResult;
 
-        // 獲得API值$response轉為json array給頁面傳值使用
-        $jsonData = $response->json();
+            // 取$newAndroidUsers值
+            // 從DB取出值為字串需要json_decode解析為數組
+            // 才能傳值給其他頁面使用
+            // 第二參數true是為了確保解碼為關聯式數組
+            $newAndroidUsers = json_decode($result[0]['user_count'], true);
+            // 測$newAndroidUsers值及類型
+            // $returnNewAndroidUsers = [
+            //     'newAndroidUsers' => $newAndroidUsers,
+            //     'dataType' => gettype($newAndroidUsers),
+            // ];
+            // return $returnNewAndroidUsers;
 
-        // 定義$result給頁面傳值使用
-        $result = $jsonData;
+            // 取$newiOSUsers值
+            $newiOSUsers = json_decode($result[1]['user_count'], true);
+            // 測$newiOSUsers值
+            // return '$newiOSUsers:' . json_encode($newiOSUsers);
 
-        // 測試$result是否有值
-        // return $result;
+            // 取$newAndroidUsers加總
+            $sumA = 0;
+            foreach ($newAndroidUsers as $userA) {
+                $sumA += $userA;
+            };
+            // 測$sumA值
+            // return '$sumA:' . json_encode($sumA);
 
-        // admin_success('Processed successfully.');
+            // 取$newiOSUsers加總
+            $sumI = 0;
+            foreach ($newiOSUsers as $userI) {
+                $sumI += $userI;
+            };
+            // 測$sumI值
+            // return '$sumI:' . json_encode($sumI);
 
-        // 頁面傳值用
-        return back()->with([
-            'result' => $result,
-            'date' => $date,
-        ]);
+
+            // 頁面傳值用
+            return back()->with([
+                'result' => $result,
+                'date' => $date,
+                'newAndroidUsers' => $newAndroidUsers,
+                'newiOSUsers' => $newiOSUsers,
+                'sumA' => $sumA,
+                'sumI' => $sumI,
+            ]);
+        } else {
+            return "No Data !!";
+        }
     }
 
     /**
