@@ -267,7 +267,7 @@ class HomeController extends Controller
         $content->row(new NewUserForm());
 
         // 取值給view使用
-        // 若有從NewUserForm傳回result及date值 
+        // 若有從NewUserForm傳回$date值 
         // 則可從session取值
         if ($date = session('date')) {
             // 測試$date是否有值
@@ -291,15 +291,6 @@ class HomeController extends Controller
             // ];
             // return $return_newAndroidUsers;
 
-            // 取$newiOSUsers值
-            $newiOSUsers = session('newiOSUsers');
-            // 測$newiOSUsers值
-            // $return_newiOSUsers = [
-            //     'newiOSUsers' => $newiOSUsers,
-            //     'dataType' => gettype($newiOSUsers),
-            // ];
-            // return $return_newiOSUsers;
-
             // 取$newAndroidUsers加總$sumA
             $sumA = session('sumA');
             // 測$sumA值
@@ -308,6 +299,15 @@ class HomeController extends Controller
             //     'dataType' => gettype($sumA),
             // ];
             // return $return_sumA;
+
+            // 取$newiOSUsers值
+            $newiOSUsers = session('newiOSUsers');
+            // 測$newiOSUsers值
+            // $return_newiOSUsers = [
+            //     'newiOSUsers' => $newiOSUsers,
+            //     'dataType' => gettype($newiOSUsers),
+            // ];
+            // return $return_newiOSUsers;
 
             // 取$newiOSUsers加總$sumI
             $sumI = session('sumI');
@@ -322,8 +322,8 @@ class HomeController extends Controller
                 'result' => $result,
                 'date' => $date,
                 'newAndroidUsers' => $newAndroidUsers,
-                'newiOSUsers' => $newiOSUsers,
                 'sumA' => $sumA,
+                'newiOSUsers' => $newiOSUsers,
                 'sumI' => $sumI,
             ]);
         };
@@ -337,81 +337,104 @@ class HomeController extends Controller
         $content->row(new UserPaymentForm());
 
         // 取值給view用
-        // 若有從UserPaymentForm回傳$result及$date值
+        // 若有從UserPaymentForm回傳$date值
         // 則可從session取值
-        if ($result = session('result')) {
-            // 測$result值
-            // return $result;
-
-            // 取$date值
-            $date = session('date');
+        if ($date = session('date')) {
             // 測$date值
             // return $date;
 
-            // 取$androidUserCount數組值
-            $androidUserCount = $result['data']['statistics'][0]['userCount'];
-            // 測$androidUserCount值
-            // return $androidUserCount;
+            $result = session('result');
+            // 測$result值
+            // $return_result = [
+            //     'result' => $result,
+            //     'dataType' => gettype($result),
+            // ];
+            // return $return_result;
 
-            // 取$androidUserRev數組值
-            $androidUserRev = $result['data']['statistics'][0]['revenue'];
-            // 測$androidUserRev數組值
-            // return $androidUserRev;
+            // 取$androidUsers數組值
+            $androidUsers = session('androidUsers');
+            // 測$androidUsers值
+            // $return_androidUsers = [
+            //     'androidUsers' => $androidUsers,
+            //     'dataType' => gettype($androidUsers),
+            // ];
+            // return $return_androidUsers;
 
-            // 取$androidUserCount加總
-            $sumAU = 0;
-            foreach ($androidUserCount as $countA) {
-                $sumAU += $countA;
-            };
-            // 測$sumA值
-            // return $sumAU;
+            // 取$androidUsers加總$sumAU值
+            $sumAU = session('sumAU');
+            // 測$sumAU值
+            // $return_sumAU = [
+            //     'sumAU' => $sumAU,
+            //     'dataType' => gettype($sumAU),
+            // ];
+            // return $return_sumAU;
 
-            // 取$androidUserRev加總
-            $sumAR = 0;
-            foreach ($androidUserRev as $revA) {
-                $sumAR += $revA;
-            };
+            // 取$androidRev數組值
+            $androidRev = session('androidRev');
+            // 測$androidRev數組值
+            // $return_androidRev = [
+            //     'androidRev' => $androidRev,
+            //     'dataType' => gettype($androidRev),
+            // ];
+            // return $return_androidRev;
+
+            // 取$androidUserRev加總$sumAR值
+            $sumAR = session('sumAR');
             // 測$sumAR值
-            // return $sumAR;
+            // $return_sumAR = [
+            //     'sumAR' => $sumAR,
+            //     'dataType' => gettype($sumAR),
+            // ];
+            // return $return_sumAR;
 
-            // 取$iOSUserCount數組值
-            $iOSUserCount = $result['data']['statistics'][1]['userCount'];
-            // 測$iOSUserCount
-            // return $iOSUserCount;
+            // 取$iOSUsers數組值
+            $iOSUsers = session('iOSUsers');
+            // 測$iOSUsers值
+            // $return_iOSUsers = [
+            //     'iOSUsers' => $iOSUsers,
+            //     'dataType' => gettype($iOSUsers),
+            // ];
+            // return $return_iOSUsers;
 
-            // 取$iOSUserRev數組值
-            $iOSUserRev = $result['data']['statistics'][1]['revenue'];
-            // 測$iOSUserRev值
-            // return $iOSUserRev;
-
-            // 取$iOSUserCount加總
-            $sumIU = 0;
-            foreach ($iOSUserCount as $countI) {
-                $sumIU += $countI;
-            };
+            // 取$iOSUsers加總$sumIU
+            $sumIU = session('sumIU');
             // 測$sumIU值
-            // return $sumIU;
+            // $return_sumIU = [
+            //     'sumIU' => $sumIU,
+            //     'dataType' => gettype($sumIU),
+            // ];
+            // return $return_sumIU;
 
-            // 取$iOSUserRev加總
-            $sumIR = 0;
-            foreach ($iOSUserRev as $revI) {
-                $sumIR += $revI;
-            };
+            // 取$iiOSRev數組值
+            $iOSRev = session('iOSRev');
+            // 測$iOSRev值
+            // $return_iOSRev = [
+            //     'iOSRev' => $iOSRev,
+            //     'dataType' => gettype($iOSRev),
+            // ];
+            // return $return_iOSRev;
+
+            // 取$iOSRev加總$sumIR值
+            $sumIR = session('sumIR');
             // 測$sumIR值
-            // return $sumIR;
+            // $return_sumIR = [
+            //     'sumIR' => $sumIR,
+            //     'dataType' => gettype($sumIR),
+            // ];
+            // return $return_sumIR;
 
             $content->view(
                 'userPayment',
                 [
                     'result' => $result,
                     'date' => $date,
-                    'androidUserCount' => $androidUserCount,
-                    'androidUserRev' => $androidUserRev,
+                    'androidUsers' => $androidUsers,
                     'sumAU' => $sumAU,
+                    'androidRev' => $androidRev,
                     'sumAR' => $sumAR,
-                    'iOSUserCount' => $iOSUserCount,
-                    'iOSUserRev' => $iOSUserRev,
+                    'iOSUsers' => $iOSUsers,
                     'sumIU' => $sumIU,
+                    'iOSRev' => $iOSRev,
                     'sumIR' => $sumIR,
                 ]
             );

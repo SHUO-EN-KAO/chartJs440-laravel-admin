@@ -51,7 +51,8 @@ class NewUserForm extends Form
             // return $returnResult;
 
             // 取$newAndroidUsers值
-            // 從DB取出值為字串需要json_decode解析為數組
+            // 從DB取出值為會被laravel-admin轉為字串
+            // 需要json_decode解析為數組
             // 才能傳值給其他頁面使用
             // 第二參數true是為了確保解碼為關聯式數組
             $newAndroidUsers = json_decode($result[0]['user_count'], true);
