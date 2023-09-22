@@ -26,9 +26,9 @@
     </div>
 
     {{-- chartJs --}}
-    {{-- <div class="chartSection">
+    <div class="chartSection">
         <canvas id="userPaymentLineChart"></canvas>
-    </div> --}}
+    </div>
 
     {{-- dataTableJs --}}
     <div>
@@ -37,9 +37,9 @@
                 {{-- 一組<tr></tr>代表橫向資料欄位一排 --}}
                 <tr>
                     <td><strong>Hour</strong></td>
-                    <td style="color:#D95B04"><strong>Android User</strong></td>
+                    <td style="color:#D95B04"><strong>Android Users</strong></td>
                     <td style="color:#8F8100"><strong>Android Rev</strong></td>
-                    <td style="color:#04CBD9"><strong>iOS User</strong></td>
+                    <td style="color:#04CBD9"><strong>iOS Users</strong></td>
                     <td style="color:#1F008F"><strong>iOS Rev</strong></td>
                 </tr>
             </thead>
@@ -66,8 +66,8 @@
         </table>
     </div>
 
-    {{-- chartJs --}}
-    {{-- <script>
+    <script>
+        // chartJs---------------------------------
         // 定義userPaymentLineCtx
         const userPaymentLineCtx = document.getElementById('userPaymentLineChart');
         console.log('userPaymentLineChart:', userPaymentLineChart);
@@ -79,25 +79,55 @@
         }
         console.log('hourlabels:', hourlabels);
 
-        // 將controller傳值之$result數組轉為json字串初始化給頁面使用
-        // const userPaymentData = <?php echo json_encode($result); ?>;
+        // 將controller傳值之$result轉為json給頁面使用
+        const userPaymentData = <?php echo json_encode($result); ?>;
         console.log('userPaymentData:', userPaymentData);
 
         // 定義androidUsers
-        const androidUsers = userPaymentData['data']['statistics'][0]['userCount'];
+        // 值從userPaymentData被取出會變成是一般array
+        // 將array轉為關聯式數組要JSON.parse
+        const androidUsers = JSON.parse(userPaymentData[0]['user_count']);
         console.log('androidUsers:', androidUsers);
 
-        // 定義androidUserRev
-        const androidUserRev = userPaymentData['data']['statistics'][0]['revenue'];
-        console.log('androidUserRev:', androidUserRev);
+        // 定義androidRev
+        const androidRev = JSON.parse(userPaymentData[0]['revenue']);
+        console.log('androidRev:', androidRev);
 
         // 定義iOSUsers
-        iOSUsers = userPaymentData['data']['statistics'][1]['userCount'];
+        iOSUsers = JSON.parse(userPaymentData[1]['user_count']);
         console.log('iOSUsers:', iOSUsers);
 
-        // 定義iOSUserRev
-        iOSUserRev = userPaymentData['data']['statistics'][1]['revenue'];
-        console.log('iOSUserRev:', iOSUserRev);
+        // 定義iOSRev
+        iOSRev = JSON.parse(userPaymentData[1]['revenue']);
+        console.log('iOSRev:', iOSRev);
+
+        // 定義androidUsers加總
+        let sumAU = 0;
+        androidUsers.forEach(element => {
+            sumAU += element;
+        });
+        console.log('sumAU:', sumAU);
+
+        // 定義androidRev加總
+        let sumAR = 0;
+        androidRev.forEach(element => {
+            sumAR += element;
+        });
+        console.log('sumAR:', sumAR);
+
+        // 定義iOSUsers加總
+        let sumIU = 0;
+        iOSUsers.forEach(element => {
+            sumIU += element;
+        });
+        console.log('sumIU:', sumIU);
+
+        // 定義iOSRev加總
+        let sumIR = 0;
+        iOSRev.forEach(element => {
+            sumIR += element;
+        });
+        console.log('sumIR:', sumIR);
 
         // 繪製userPaymemtLineChart
         const userPaymemtLineChart =
@@ -106,7 +136,7 @@
                 data: {
                     labels: hourlabels,
                     datasets: [{
-                            label: 'AndroidUsers',
+                            label: 'Android Users:' + sumAU,
                             data: androidUsers,
                             backgroundColor: '#D95B04',
                             borderColor: '#D95B04',
@@ -114,7 +144,7 @@
                             pointBorderColor: '#D95B04',
                         },
                         {
-                            label: 'iOSUsers',
+                            label: 'iOS Users:' + sumIU,
                             data: iOSUsers,
                             backgroundColor: '#04CBD9',
                             borderColor: '#04CBD9',
@@ -122,16 +152,16 @@
                             pointBorderColor: '#04CBD9',
                         },
                         {
-                            label: 'AndroidRev',
-                            data: androidUserRev,
+                            label: 'Android Rev:' + sumAR,
+                            data: androidRev,
                             backgroundColor: '#8F8100',
                             borderColor: '#8F8100',
                             pointBackgroundColor: '#8F8100',
                             pointBorderColor: '#8F8100',
                         },
                         {
-                            label: 'iOSRev',
-                            data: iOSUserRev,
+                            label: 'iOS Rev:' + sumIR,
+                            data: iOSRev,
                             backgroundColor: '#1F008F',
                             borderColor: '#1F008F',
                             pointBackgroundColor: '#1F008F',
@@ -172,10 +202,8 @@
                     },
                 }
             })
-    </script> --}}
 
-    {{-- dataTablejs --}}
-    <script>
+        // dataTablejs---------------------------------
         const userPaymentDataTable =
             new DataTable('#userPaymentDataTable', {
                 columnDefs: [{
