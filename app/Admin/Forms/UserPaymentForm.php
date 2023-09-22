@@ -6,6 +6,7 @@ namespace App\Admin\Forms;
 use Encore\Admin\Widgets\Form;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Models\UserPaymentApiData;
 
 class UserPaymentForm extends Form
 {
@@ -27,37 +28,134 @@ class UserPaymentForm extends Form
     {
         //dump($request->all());
 
-        // 定義表單填入後傳給API之變數
+        // 定義表單填入之變數
         $id = $request->input('id');
         $date = $request->input('date');
 
-        // 從API來源取值
-        $response = Http::post(
-            'http://34.100.197.14/statistics/payment/hourly',
-            [
-                'id' => $id,
+        // 從DB取值
+        $userPaymentApiDataDB =
+            UserPaymentApiData::where('game_id', $id)
+            ->where('date', $date)->get();
+        // 測$userPaymentApiDataDB值
+        // $return_userPaymentApiDataDB = [
+        //     'userPaymentApiDataDB' => $userPaymentApiDataDB,
+        //     'dataType' => gettype($userPaymentApiDataDB),
+        // ];
+        // return $return_userPaymentApiDataDB;
+
+        // 若DB有資料則呈現blade
+        // 若無資則顯示No Data
+        if (!$userPaymentApiDataDB->isEmpty()) {
+            $result = $userPaymentApiDataDB;
+            // 測$result值
+            // $return_result = [
+            //     'result' => $result,
+            //     'dataType' => gettype($result),
+            // ];
+            // return $return_result;
+
+            // 取$androidUsers值
+            // 從DB取出值會被laravel-admin轉為字串
+            // 所以需要json_decode後才能轉成array來使用
+            $androidUsers = json_decode($result[0]['user_count'], true);
+            // 測$androidUsers值
+            // $return_androidUsers = [
+            //     'androidUsers' => $androidUsers,
+            //     'dataType' => gettype($androidUsers),
+            // ];
+            // return $return_androidUsers;
+
+            // 取$androidUsers值加總$sumAU值
+            $sumAU = 0;
+            foreach ($androidUsers as $userA) {
+                $sumAU += $userA;
+            };
+            // 測$androidUsers值加總$sumAU值
+            // $return_sumAU = [
+            //     'sumAU' => $sumAU,
+            //     'dataType' => gettype($sumAU),
+            // ];
+            // return $return_sumAU;
+
+            // 取$androidRev值
+            $androidRev = json_decode($result[0]['revenue']);
+            // 測$androidRev值
+            // $return_androidRev = [
+            //     'androidRev' => $androidRev,
+            //     'dataType' => gettype($androidRev),
+            // ];
+            // return $return_androidRev;
+
+            // 取$androidRev值加總$sumAR值
+            $sumAR = 0;
+            foreach ($androidRev as $revA) {
+                $sumAR += $revA;
+            };
+            // 測$sumAR值
+            // $return_sumAR = [
+            //     'sumAR' => $sumAR,
+            //     'dataType' => gettype($sumAR),
+            // ];
+            // return $return_sumAR;
+
+            // 取$iOSUsers值
+            $iOSUsers = json_decode($result[1]['user_count']);
+            // 測$iOSUsers值
+            // $return_iOSUsers = [
+            //     'iOSUsers' => $iOSUsers,
+            //     'dataType' => gettype($iOSUsers),
+            // ];
+            // return $return_iOSUsers;
+
+            // 取$iOSUsers值加總$sumIU值
+            $sumIU = 0;
+            foreach ($iOSUsers as $userI) {
+                $sumIU += $userI;
+            }
+            // 測$sumIU值
+            // $return_sumIU = [
+            //     'sumIU' => $sumIU,
+            //     'dataType' => gettype($sumIU),
+            // ];
+            // return $return_sumIU;
+
+            // 取$iOSRev值
+            $iOSRev = json_decode($result[1]['revenue']);
+            // 測$iOSRev值
+            // $return_iOSRev = [
+            //     'iOSRev' => $iOSRev,
+            //     'dataType' => gettype($iOSRev),
+            // ];
+            // return $return_iOSRev;
+
+            // 取$iOSRev值加總$sumIR值
+            $sumIR = 0;
+            foreach ($iOSRev as $revI) {
+                $sumIR += $revI;
+            };
+            // 測$sumIR值
+            // $return_sumIR = [
+            //     'sumIR' => $sumIR,
+            //     'dataType' => gettype($sumIR),
+            // ];
+            // return $return_sumIR;
+
+            // 給controller頁面傳值用
+            return back()->with([
+                'result' => $result,
                 'date' => $date,
-            ]
-        );
-        // 測$response是否有值
-        // return $response;
-
-        // 測$date是否有值
-        // return $date;
-
-        // 轉json array給頁面傳值用
-        $jsonData = $response->json();
-
-        // 定義$result給頁面傳值用
-        $result = $jsonData;
-        // 測$result 是否有值
-        // return $result;
-
-        // 頁面傳值用
-        return back()->with([
-            'result' => $result,
-            'date' => $date,
-        ]);
+                'androidUsers' => $androidUsers,
+                'sumAU' => $sumAU,
+                'androidRev' => $androidRev,
+                'sumAR' => $sumAR,
+                'iOSUsers' => $iOSUsers,
+                'sumIU' => $sumIU,
+                'iOSRev' => $iOSRev,
+                'sumIR' => $sumIR,
+            ]);
+        } else {
+            return 'No Data';
+        };
     }
 
     /**

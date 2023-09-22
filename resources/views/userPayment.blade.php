@@ -26,9 +26,9 @@
     </div>
 
     {{-- chartJs --}}
-    <div class="chartSection">
+    {{-- <div class="chartSection">
         <canvas id="userPaymentLineChart"></canvas>
-    </div>
+    </div> --}}
 
     {{-- dataTableJs --}}
     <div>
@@ -47,10 +47,10 @@
                 @for ($i = 0; $i < 24; $i++)
                     <tr>
                         <td>{{ $i }}:00</td>
-                        <td style="color:#D95B04">{{ $androidUserCount[$i] }}</td>
-                        <td style="color:#8F8100">{{ $androidUserRev[$i] }}</td>
-                        <td style="color:#04CBD9">{{ $iOSUserCount[$i] }}</td>
-                        <td style="color:#1F008F">{{ $iOSUserRev[$i] }}</td>
+                        <td style="color:#D95B04">{{ $androidUsers[$i] }}</td>
+                        <td style="color:#8F8100">{{ $androidRev[$i] }}</td>
+                        <td style="color:#04CBD9">{{ $iOSUsers[$i] }}</td>
+                        <td style="color:#1F008F">{{ $iOSRev[$i] }}</td>
                     </tr>
                 @endfor
 
@@ -67,7 +67,7 @@
     </div>
 
     {{-- chartJs --}}
-    <script>
+    {{-- <script>
         // 定義userPaymentLineCtx
         const userPaymentLineCtx = document.getElementById('userPaymentLineChart');
         console.log('userPaymentLineChart:', userPaymentLineChart);
@@ -80,7 +80,7 @@
         console.log('hourlabels:', hourlabels);
 
         // 將controller傳值之$result數組轉為json字串初始化給頁面使用
-        const userPaymentData = <?php echo json_encode($result); ?>;
+        // const userPaymentData = <?php echo json_encode($result); ?>;
         console.log('userPaymentData:', userPaymentData);
 
         // 定義androidUsers
@@ -172,7 +172,7 @@
                     },
                 }
             })
-    </script>
+    </script> --}}
 
     {{-- dataTablejs --}}
     <script>
