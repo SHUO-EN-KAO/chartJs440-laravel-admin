@@ -27,11 +27,11 @@
     </div>
 
     {{-- chartJs --}}
-    {{-- <div class="chartSection">
+    <div class="chartSection">
         <div class="chart">
             <canvas id=newUserLineChart></canvas>
         </div>
-    </div> --}}
+    </div>
 
     {{-- dataTableJs --}}
     <div class="dataTable">
@@ -62,16 +62,16 @@
     </div>
 
     {{-- chartJs --}}
-    {{-- <script>
+    <script>
         // const不可被重新賦值
         // let可以被重新賦值
 
         // 取controller回傳$result值來定義newUserData
         // controller傳來$result值為數組
         // 數組必須json_encode轉為字串才能初始化給JavaScript使用
-        // const newUserData = 
-        // <?php echo json_encode($result); ?>;
-        // console.log('newUserData:', newUserData);
+        const newUserData =
+            <?php echo json_encode($result); ?>;
+        console.log('newUserData:', newUserData);
 
         // 定義線圖ctx
         const newUserLineCtx = document.getElementById('newUserLineChart');
@@ -85,21 +85,38 @@
         console.log('hourLabels:', hourLabels);
 
         // 定義androidUserCount
-        const androidUserCount = newUserData['data']['statistics'][0]['userCount'];
+        // 要將值轉為數組所以要先JSON.parse
+        const androidUserCount = JSON.parse(newUserData[0]['user_count']);
         console.log('androidUserCount:', androidUserCount);
 
         // 定義iOSUserCount
-        const iOSUserCount = newUserData['data']['statistics'][1]['userCount'];
+        // 要將值轉為數組所以要先JSON.parse
+        const iOSUserCount = JSON.parse(newUserData[1]['user_count']);
         console.log('iOSUserCount:', iOSUserCount);
 
-        // 繪製線圖
+        // 定義androidUserCount加總
+        let sumA = 0;
+        androidUserCount.forEach(element => {
+            sumA += element;
+        });
+        console.log('sumA:', sumA);
+
+        // 定義iOSUserCount加總
+        let sumI = 0;
+        iOSUserCount.forEach(element => {
+            sumI += element;
+        });
+        console.log('sumI:', sumI);
+
+
+        // 繪製newUserLineChart線圖
         const newUserLineChart =
             new Chart(newUserLineCtx, {
                 type: 'line',
                 data: {
                     labels: hourLabels,
                     datasets: [{
-                            label: 'Android',
+                            label: 'Android: ' + sumA,
                             data: androidUserCount,
                             backgroundColor: '#943F00',
                             borderColor: '#943F00',
@@ -107,7 +124,7 @@
                             pointBackgroundColor: '#943F00',
                         },
                         {
-                            label: 'iOS',
+                            label: 'iOS: ' + sumI,
                             data: iOSUserCount,
                             backgroundColor: '#008391',
                             borderColor: '#008391',
@@ -156,7 +173,7 @@
                     },
                 }
             })
-    </script> --}}
+    </script>
 
     {{-- dataTablejs --}}
     <script>
