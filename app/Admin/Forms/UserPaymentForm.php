@@ -154,7 +154,12 @@ class UserPaymentForm extends Form
                 'sumIR' => $sumIR,
             ]);
         } else {
-            return 'No Data';
+            admin_warning(
+                'No Data in ' . $date . '!!',
+                'Please select other date.'
+            );
+
+            return back();
         };
     }
 
