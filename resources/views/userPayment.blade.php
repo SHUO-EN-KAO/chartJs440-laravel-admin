@@ -218,11 +218,11 @@
         const userPaymentDataTable =
             new DataTable('#userPaymentDataTable', {
                 columnDefs: [{
-                        width: '20%',
+                        width: '19%',
                         targets: 0
                     },
                     {
-                        width: '20%',
+                        width: '21%',
                         targets: 1
                     },
                     {
@@ -241,6 +241,7 @@
                 searching: false,
                 paging: false,
                 info: false,
+                ordering: false,
             });
     </script>
 </body>
