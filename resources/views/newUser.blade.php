@@ -213,6 +213,7 @@
                 searching: false,
                 paging: false,
                 info: false,
+                ordering: false,
             });
     </script>
 
