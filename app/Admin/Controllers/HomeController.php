@@ -75,7 +75,6 @@ class HomeController extends Controller
             ])->get();
         }
 
-
         // 頁面呈現
         $content->title('Index');
         $content->description('<strong>Today: ' . date('Y-m-d') . '</strong>');
@@ -264,6 +263,12 @@ class HomeController extends Controller
     public function newUserForm(Content $content)
     {
         $content->title('New User Data');
+
+        $content->breadcrumb(
+            ['text' => 'SearchForm', 'url' => '/form/newUserForm'],
+            ['text' => 'NewUser'],
+        );
+
         $content->row(new NewUserForm());
 
         // 取值給view使用
