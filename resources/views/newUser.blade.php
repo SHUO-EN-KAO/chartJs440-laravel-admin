@@ -20,10 +20,6 @@
             margin-top: 3px;
             height: 280px;
         }
-
-        .button {
-            /* padding: 0; */
-        }
     </style>
 
 </head>
@@ -42,7 +38,6 @@
             </button>
         </div>
     </div>
-
 
     {{-- chartJs --}}
     <div class="chartSection">

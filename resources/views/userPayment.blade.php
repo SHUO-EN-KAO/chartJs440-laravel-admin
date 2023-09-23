@@ -15,6 +15,7 @@
             background-color: #fff;
             border-radius: 15px;
             height: 280px;
+            margin-top: 3px;
         }
     </style>
 
@@ -22,7 +23,17 @@
 
 <body>
     <div>
-        <strong style="color:darkslateblue">Data Date: {{ $date }}</strong>
+        <div style="display: inline-block ; margin-right:10px">
+            <strong style="color:darkslateblue">Data Date: {{ $date }}</strong>
+        </div>
+
+        <div style="display: inline-block">
+            <button>
+                <strong>
+                    <a href="javascript:history.back()">Back to Search</a>
+                </strong>
+            </button>
+        </div>
     </div>
 
     {{-- chartJs --}}
