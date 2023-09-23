@@ -340,6 +340,12 @@ class HomeController extends Controller
     public function userPaymentForm(Content $content)
     {
         $content->title('User Payment Data');
+
+        $content->breadcrumb(
+            ['text' => 'SearchForm', 'url' => '/form/userPaymentForm'],
+            ['text' => 'UserPayment'],
+        );
+
         $content->row(new UserPaymentForm());
 
         // 取值給view用
