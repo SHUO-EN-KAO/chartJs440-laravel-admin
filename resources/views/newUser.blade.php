@@ -60,15 +60,19 @@
                 @for ($i = 0; $i < 24; $i++)
                     <tr>
                         <td>{{ $i }}:00</td>
-                        <td style="color:#943F00">{{ $newAndroidUsers[$i] }}</td>
-                        <td style="color:#008391">{{ $newiOSUsers[$i] }}</td>
+                        <td style="color:#943F00">{{ str_replace(['(', ')'], '', number_format($newAndroidUsers[$i])) }}
+                        </td>
+                        <td style="color:#008391">{{ str_replace(['(', ')'], '', number_format($newiOSUsers[$i])) }}
+                        </td>
                     </tr>
                 @endfor
 
                 <tr>
                     <td><strong>Total</strong></td>
-                    <td style="color:#943F00"><strong>{{ $sumA }}</strong></td>
-                    <td style="color:#008391"><strong>{{ $sumI }}</strong></td>
+                    <td style="color:#943F00"><strong>{{ str_replace(['(', ')'], '', number_format($sumA)) }}</strong>
+                    </td>
+                    <td style="color:#008391"><strong>{{ str_replace(['(', ')'], '', number_format($sumI)) }}</strong>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -129,7 +133,7 @@
                 data: {
                     labels: hourLabels,
                     datasets: [{
-                            label: 'Android: ' + sumA,
+                            label: 'Android: ' + sumA.toLocaleString(),
                             data: androidUserCount,
                             backgroundColor: '#943F00',
                             borderColor: '#943F00',
@@ -137,7 +141,7 @@
                             pointBackgroundColor: '#943F00',
                         },
                         {
-                            label: 'iOS: ' + sumI,
+                            label: 'iOS: ' + sumI.toLocaleString(),
                             data: iOSUserCount,
                             backgroundColor: '#008391',
                             borderColor: '#008391',

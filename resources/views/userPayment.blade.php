@@ -58,19 +58,31 @@
                 @for ($i = 0; $i < 24; $i++)
                     <tr>
                         <td>{{ $i }}:00</td>
-                        <td style="color:#D95B04">{{ $androidUsers[$i] }}</td>
-                        <td style="color:#8F8100">{{ $androidRev[$i] }}</td>
-                        <td style="color:#04CBD9">{{ $iOSUsers[$i] }}</td>
-                        <td style="color:#1F008F">{{ $iOSRev[$i] }}</td>
+                        <td style="color:#D95B04">
+                            {{ str_replace(['(', ')'], '', number_format($androidUsers[$i])) }}
+                        </td>
+                        <td style="color:#8F8100">
+                            {{ str_replace(['(', ')'], '', number_format($androidRev[$i])) }}
+                        </td>
+                        <td style="color:#04CBD9">
+                            {{ str_replace(['(', ')'], '', number_format($iOSUsers[$i])) }}
+                        </td>
+                        <td style="color:#1F008F">
+                            {{ str_replace(['(', ')'], '', number_format($iOSRev[$i])) }}
+                        </td>
                     </tr>
                 @endfor
 
                 <tr>
                     <td><strong>Total</strong></td>
-                    <td style="color:#D95B04"><strong>{{ $sumAU }}</strong></td>
-                    <td style="color:#8F8100"><strong>{{ $sumAR }}</strong></td>
-                    <td style="color:#04CBD9"><strong>{{ $sumIU }}</strong></td>
-                    <td style="color:#1F008F"><strong>{{ $sumIR }}</strong></td>
+                    <td style="color:#D95B04"><strong>{{ str_replace(['(', ')'], '', number_format($sumAU)) }}</strong>
+                    </td>
+                    <td style="color:#8F8100"><strong>{{ str_replace(['(', ')'], '', number_format($sumAR)) }}</strong>
+                    </td>
+                    <td style="color:#04CBD9"><strong>{{ str_replace(['(', ')'], '', number_format($sumIU)) }}</strong>
+                    </td>
+                    <td style="color:#1F008F"><strong>{{ str_replace(['(', ')'], '', number_format($sumIR)) }}</strong>
+                    </td>
                 </tr>
             </tbody>
 
@@ -147,7 +159,7 @@
                 data: {
                     labels: hourlabels,
                     datasets: [{
-                            label: 'Android Users:' + sumAU,
+                            label: 'Android Users: ' + sumAU.toLocaleString(),
                             data: androidUsers,
                             backgroundColor: '#D95B04',
                             borderColor: '#D95B04',
@@ -155,7 +167,7 @@
                             pointBorderColor: '#D95B04',
                         },
                         {
-                            label: 'iOS Users:' + sumIU,
+                            label: 'iOS Users: ' + sumIU.toLocaleString(),
                             data: iOSUsers,
                             backgroundColor: '#04CBD9',
                             borderColor: '#04CBD9',
@@ -163,7 +175,7 @@
                             pointBorderColor: '#04CBD9',
                         },
                         {
-                            label: 'Android Rev:' + sumAR,
+                            label: 'Android Rev: ' + sumAR.toLocaleString(),
                             data: androidRev,
                             backgroundColor: '#8F8100',
                             borderColor: '#8F8100',
@@ -171,7 +183,7 @@
                             pointBorderColor: '#8F8100',
                         },
                         {
-                            label: 'iOS Rev:' + sumIR,
+                            label: 'iOS Rev: ' + sumIR.toLocaleString(),
                             data: iOSRev,
                             backgroundColor: '#1F008F',
                             borderColor: '#1F008F',
@@ -191,7 +203,14 @@
                             },
                             padding: 0,
                         },
-                        legend: true,
+                        legend: {
+                            display: true,
+                            labels: {
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+                        },
                     },
                     scales: {
                         x: {
