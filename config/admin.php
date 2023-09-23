@@ -223,7 +223,7 @@ return [
          * or specific method to path like: get:admin/auth/logs.
          */
         'except' => [
-            env('ADMIN_ROUTE_PREFIX', 'admin').'/auth/logs*',
+            env('ADMIN_ROUTE_PREFIX', 'admin') . '/auth/logs*',
         ],
     ],
 
@@ -348,9 +348,7 @@ return [
     'minify_assets' => [
 
         // Assets will not be minified.
-        'excepts' => [
-
-        ],
+        'excepts' => [],
 
     ],
 
@@ -405,6 +403,11 @@ return [
     |
     */
     'extensions' => [
-
+        'sweetalert2' => [
+            'enable' => true,
+            'config' => [
+                // 这里可以配置 SweetAlert2 的选项，例如自定义样式、位置等
+            ],
+        ],
     ],
 ];

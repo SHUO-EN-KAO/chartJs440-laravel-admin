@@ -95,7 +95,8 @@ class NewUserForm extends Form
                 'sumI' => $sumI,
             ]);
         } else {
-            return "No Data !!";
+            admin_warning('No Data in ' . $date . '!!','Please select other date.');
+            return back();
         }
     }
 

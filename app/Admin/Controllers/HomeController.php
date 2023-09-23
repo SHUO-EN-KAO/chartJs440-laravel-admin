@@ -269,8 +269,9 @@ class HomeController extends Controller
         // 取值給view使用
         // 若有從NewUserForm傳回$date值 
         // 則可從session取值
-        if ($date = session('date')) {
-            // 測試$date是否有值
+        if (session()->has('date')) {
+            $date = session('date');
+            // 測$date值
             // return $date;
 
             // 取$result值
@@ -326,7 +327,7 @@ class HomeController extends Controller
                 'newiOSUsers' => $newiOSUsers,
                 'sumI' => $sumI,
             ]);
-        };
+        }
 
         return $content;
     }
