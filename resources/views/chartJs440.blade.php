@@ -146,13 +146,22 @@
         const newUser = <?php echo json_encode($newUserApiDataDB); ?>;
         console.log('newUser:', newUser);
 
-        // JSON.parse()將字串轉為JSON數組才能給chart使用
-        // 不然純字串無法對應chart之X時間軸正常顯示
-        const newAndroidUserCount = JSON.parse(newUser[0]['user_count']);
-        console.log('newAndroidUserCount:', newAndroidUserCount);
+        // 將newAndroidUserCount和newiOSUserCount預設為[]
+        // 以供newUser無資料時能被判斷取值
+        let newAndroidUserCount = [];
+        let newiOSUserCount = [];
 
-        const newiOSUserCount = JSON.parse(newUser[1]['user_count']);
-        console.log('newiOSUserCount:', newiOSUserCount);
+        // 若newUser有資料
+        // 則判斷取newAndroidUserCount和newiOSUserCount值
+        if (newUser.length > 0) {
+            // JSON.parse()將字串轉為JSON數組才能給chart使用
+            // 不然純字串無法對應chart之X時間軸正常顯示
+            newAndroidUserCount = JSON.parse(newUser[0]['user_count']);
+            console.log('newAndroidUserCount:', newAndroidUserCount);
+
+            newiOSUserCount = JSON.parse(newUser[1]['user_count']);
+            console.log('newiOSUserCount:', newiOSUserCount);
+        }
 
         new Chart(newUserCtx, {
             type: 'line',
@@ -218,19 +227,30 @@
         const userPayment = <?php echo json_encode($userPaymentApiDataDB); ?>;
         console.log('userPayment:', userPayment);
 
-        // JSON.parse()將字串轉為JSON數組才能給chart使用
-        // 不然純字串無法對應chart之X時間軸正常顯示
-        const paymentAndroidUserCount = JSON.parse(userPayment[0]['user_count']);
-        console.log('paymentAndroidUserCount', paymentAndroidUserCount);
+        // 預設變數為[]
+        // 以供userPayment無資料時能被判斷取值
+        let paymentAndroidUserCount = [];
+        let paymentiOSUserCount = [];
+        let paymentAndroidRevenue = [];
+        let paymentiOSRevenue = [];
 
-        const paymentiOSUserCount = JSON.parse(userPayment[1]['user_count']);
-        console.log('paymentiOSUserCount', paymentiOSUserCount);
+        // 若userPayment有資料
+        // 則判斷取值
+        if (userPayment.length > 0) {
+            // JSON.parse()將字串轉為JSON數組才能給chart使用
+            // 不然純字串無法對應chart之X時間軸正常顯示
+            paymentAndroidUserCount = JSON.parse(userPayment[0]['user_count']);
+            console.log('paymentAndroidUserCount', paymentAndroidUserCount);
 
-        const paymentAndroidRevenue = JSON.parse(userPayment[0]['revenue']);
-        console.log('paymentAndroidRevenue:', paymentAndroidRevenue);
+            paymentiOSUserCount = JSON.parse(userPayment[1]['user_count']);
+            console.log('paymentiOSUserCount', paymentiOSUserCount);
 
-        const paymentiOSRevenue = JSON.parse(userPayment[1]['revenue']);
-        console.log('paymentiOSRevenue', paymentiOSRevenue);
+            paymentAndroidRevenue = JSON.parse(userPayment[0]['revenue']);
+            console.log('paymentAndroidRevenue:', paymentAndroidRevenue);
+
+            paymentiOSRevenue = JSON.parse(userPayment[1]['revenue']);
+            console.log('paymentiOSRevenue', paymentiOSRevenue);
+        }
 
         new Chart(userPaymentCtx, {
             type: 'line',
@@ -308,13 +328,13 @@
         const newUserTotalCtx = document.getElementById('newUserTotalPieChart');
         console.log('newUserTotalCtx:', newUserTotalCtx);
 
-        const newAndroidUserTotal =
+        let newAndroidUserTotal =
             newAndroidUserCount.reduce(
                 (accumulator, currentValue) => accumulator + currentValue, 0
             );
         console.log('newAndroidUserTotal:', newAndroidUserTotal);
 
-        const newiOSUserTotal =
+        let newiOSUserTotal =
             newiOSUserCount.reduce(
                 (accumulator, currentValue) => accumulator + currentValue, 0
             );
@@ -365,24 +385,24 @@
         const paymentTotalCtx = document.getElementById('paymentTotalPieChart');
         console.log('paymentTotalCtx:', paymentTotalCtx);
 
-        const paymentAndroidUserTotal =
+        let paymentAndroidUserTotal =
             paymentAndroidUserCount.reduce(
                 (accumulator, currentValue) => accumulator + currentValue, 0
             );
         console.log('paymentAndroidUserTotal:', paymentAndroidUserTotal);
 
-        const paymentiOSUserTotal = paymentiOSUserCount.reduce(
+        let paymentiOSUserTotal = paymentiOSUserCount.reduce(
             (accumulator, currentValue) => accumulator + currentValue, 0
         );
         console.log('paymentiOSUserTotal:', paymentiOSUserTotal);
 
-        const paymentAndroidRevenueTotal =
+        let paymentAndroidRevenueTotal =
             paymentAndroidRevenue.reduce(
                 (accumulator, currentValue) => accumulator + currentValue, 0
             );
         console.log('paymentAndroidRevenueTotal:', paymentAndroidRevenueTotal);
 
-        const paymentiOSRevenueTotal =
+        let paymentiOSRevenueTotal =
             paymentiOSRevenue.reduce(
                 (accumulator, currentValue) => accumulator + currentValue, 0
             );
