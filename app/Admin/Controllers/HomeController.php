@@ -43,45 +43,40 @@ class HomeController extends Controller
         $newUserApiDataDB = NewUserApiData::where([
             'game_id' => 'NBS',
             'date' => date('Y-m-d'),
+            // 'date' => date('2023-01-02'),
         ])->get();
         // dd('newUserApiDataDB:', $newUserApiDataDB);
-
-        // 若new_user_api_data沒有資料
-        // 則先呼叫newUserApiDataStore建立資料再讀取
-        if ($newUserApiDataDB->isEmpty()) {
-            $this->newUserApiDataStore();
-
-            $newUserApiDataDB = NewUserApiData::where([
-                'game_id' => 'NBS',
-                'date' => date('Y-m-d'),
-            ])->get();
-        }
 
         // 從DB讀取user_payment_api_data資料
         $userPaymentApiDataDB = UserPaymentApiData::where([
             'game_id' => 'NBS',
             'date' => date('Y-m-d'),
+            // 'date' => date('2023-01-02'),
+
         ])->get();
         // dd('userPaymentApiDataDB:', $userPaymentApiDataDB);
 
-        // 若user_payment_api_data沒有資料
-        // 則先呼叫userPaymentApiDataStore建立資料再讀取
-        if ($userPaymentApiDataDB->isEmpty()) {
-            $this->userPaymentApiDataStore();
-
-            $userPaymentApiDataDB = UserPaymentApiData::where([
-                'game_id' => 'NBS',
-                'date' => date('Y-m-d'),
-            ])->get();
-        }
-
-        // 頁面呈現
         $content->title('Index');
-        $content->description('<strong>Today: ' . date('Y-m-d') . '</strong>');
+
         $content->view('chartJs440', [
             'newUserApiDataDB' => $newUserApiDataDB,
             'userPaymentApiDataDB' => $userPaymentApiDataDB,
         ]);
+
+        if (!$newUserApiDataDB->isEmpty() && !$userPaymentApiDataDB->isEmpty()) {
+            // admin_info('All Data Available');
+            $content->description('<strong>Today: ' . date('Y-m-d') . '</strong>');
+        } elseif (!$newUserApiDataDB->isEmpty() && $userPaymentApiDataDB->isEmpty()) {
+            $content->description('<strong>New User Data Available only !!</strong>');
+            // admin_warning('Only New User Data Available');
+        } elseif ($newUserApiDataDB->isEmpty() && !$userPaymentApiDataDB->isEmpty()) {
+            $content->description('<strong>User Payment Data Available only !!</strong>');
+            // admin_warning('Only User Payment Data Available');
+        } else {
+            $content->description('<strong>No Data Available !!</strong>');
+
+            // admin_warning('No Data Available');
+        }
 
         return $content;
     }
@@ -125,7 +120,6 @@ class HomeController extends Controller
                 'date' => date('Y-m-d'),
             ])->get();
         }
-
 
         // 頁面呈現
         $content->title('testResult');
