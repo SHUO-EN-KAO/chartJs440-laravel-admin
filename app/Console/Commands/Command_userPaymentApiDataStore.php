@@ -1,5 +1,5 @@
 <?php
-// php artisan make:command UserPaymentApiDataStore
+// php artisan make:command Command_userPaymentApiDataStore
 
 namespace App\Console\Commands;
 
@@ -7,14 +7,14 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use App\Models\UserPaymentApiData;
 
-class UserPaymentApiDataStore extends Command
+class Command_userPaymentApiDataStore extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'userPaymentApiData:store';
+    protected $signature = 'command_userPaymentApiData:store';
 
     /**
      * The console command description.
@@ -76,4 +76,4 @@ class UserPaymentApiDataStore extends Command
     }
 }
 
-// php artisan userPaymentApiData:store
+// php artisan command_userPaymentApiData:store

@@ -18,9 +18,9 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
 
         // php artisan schedule:work
-        $schedule->command('newUserApiData:store')->everyTwoMinutes();
+        $schedule->command('command_newUserApiData:store')->everyMinute();
 
-        $schedule->command('userPaymentApiData:store')->everyTwoMinutes();
+        $schedule->command('command_userPaymentApiData:store')->everyMinute();
     }
 
     /**
@@ -36,8 +36,8 @@ class Kernel extends ConsoleKernel
     }
 
     protected $commands = [
-        \App\Console\Commands\NewUserApiDataStore::class,
-        \App\Console\Commands\UserPaymentApiDataStore::class,
+        \App\Console\Commands\Command_newUserApiDataStore::class,
+        \App\Console\Commands\Command_userPaymentApiDataStore::class,
 
     ];
 }

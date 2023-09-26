@@ -1,4 +1,5 @@
 <?php
+// php artisan make:command Command_newUserApiDataStore
 
 namespace App\Console\Commands;
 
@@ -6,14 +7,14 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use App\Models\NewUserApiData;
 
-class NewUserApiDataStore extends Command
+class Command_newUserApiDataStore extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'newUserApiData:store';
+    protected $signature = 'command_newUserApiData:store';
 
     /**
      * The console command description.
@@ -69,4 +70,4 @@ class NewUserApiDataStore extends Command
     }
 }
 
-// php artisan newUserApiData:store
+// php artisan command_newUserApiData:store
