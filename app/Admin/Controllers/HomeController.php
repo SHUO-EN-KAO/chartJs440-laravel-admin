@@ -63,19 +63,35 @@ class HomeController extends Controller
             'userPaymentApiDataDB' => $userPaymentApiDataDB,
         ]);
 
-        if (!$newUserApiDataDB->isEmpty() && !$userPaymentApiDataDB->isEmpty()) {
-            // admin_info('All Data Available');
-            $content->description('<strong>Today: ' . date('Y-m-d') . '</strong>');
-        } elseif (!$newUserApiDataDB->isEmpty() && $userPaymentApiDataDB->isEmpty()) {
-            $content->description('<strong>New User Data Available only !!</strong>');
-            // admin_warning('Only New User Data Available');
-        } elseif ($newUserApiDataDB->isEmpty() && !$userPaymentApiDataDB->isEmpty()) {
-            $content->description('<strong>User Payment Data Available only !!</strong>');
-            // admin_warning('Only User Payment Data Available');
+        if (
+            !$newUserApiDataDB->isEmpty()
+            && !$userPaymentApiDataDB->isEmpty()
+        ) {
+            $content->description(
+                '<strong>' . date('Y-m-d') .
+                    ' : Data Available</strong>'
+            );
+        } elseif (
+            !$newUserApiDataDB->isEmpty()
+            && $userPaymentApiDataDB->isEmpty()
+        ) {
+            $content->description(
+                '<strong>' . date('Y-m-d') .
+                    ' : New User Data Available only !! </strong>'
+            );
+        } elseif (
+            $newUserApiDataDB->isEmpty()
+            && !$userPaymentApiDataDB->isEmpty()
+        ) {
+            $content->description(
+                '<strong>' . date('Y-m-d') .
+                    ' : User Payment Data Available only !!</strong>'
+            );
         } else {
-            $content->description('<strong>No Data Available !!</strong>');
-
-            // admin_warning('No Data Available');
+            $content->description(
+                '<strong>' . date('Y-m-d') .
+                    ' : No Data Available !!</strong>'
+            );
         }
 
         return $content;
