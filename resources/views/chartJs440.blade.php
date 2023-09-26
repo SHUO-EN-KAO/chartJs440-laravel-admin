@@ -312,8 +312,8 @@
                 type: 'pie',
                 data: {
                     labels: [
-                        'Android Users: ' + newAndroidUserTotal,
-                        'iOS Users: ' + newiOSUserTotal
+                        'Android Users: ' + newAndroidUserTotal.toLocaleString(),
+                        'iOS Users: ' + newiOSUserTotal.toLocaleString()
                     ],
                     datasets: [{
                         data: [
@@ -380,8 +380,9 @@
                 type: 'pie',
                 data: {
                     labels: [
-                        'Android Rev: ' + paymentAndroidRevenueTotal,
-                        'iOS Rev: ' + paymentiOSRevenueTotal,
+                        'Android Rev: ' + paymentAndroidRevenueTotal.toLocaleString(),
+                        'iOS Rev: ' +
+                        paymentiOSRevenueTotal.toLocaleString(),
                     ],
                     datasets: [{
                         data: [
@@ -423,8 +424,8 @@
 
             if (selectedOption === 'revenueTotal') {
                 userPaymentTotalPieChart.data.labels = [
-                    'Android Rev: ' + paymentAndroidRevenueTotal,
-                    'iOS Rev: ' + paymentiOSRevenueTotal,
+                    'Android Rev: ' + paymentAndroidRevenueTotal.toLocaleString(),
+                    'iOS Rev: ' + paymentiOSRevenueTotal.toLocaleString(),
                 ];
 
                 // 因為資料為數組所以需要加索引[0]
@@ -439,8 +440,8 @@
                 ]
             } else if (selectedOption === 'userTotal') {
                 userPaymentTotalPieChart.data.labels = [
-                    'Android Users: ' + paymentAndroidUserTotal,
-                    'iOS Users: ' + paymentiOSUserTotal,
+                    'Android Users: ' + paymentAndroidUserTotal.toLocaleString(),
+                    'iOS Users: ' + paymentiOSUserTotal.toLocaleString(),
                 ];
 
                 userPaymentTotalPieChart.data.datasets[0].data = [
