@@ -48,7 +48,7 @@ class HomeController extends Controller
         ])->get();
         // dd('newUserApiDataDB:', $newUserApiDataDB);
         if ($newUserApiDataDB->isEmpty()) {
-            Log::info('Index, 
+            Log::warning('Index, 
             new_user_api_data data isEmpty in DB !!');
         } else {
             Log::info('Index, 
@@ -64,7 +64,7 @@ class HomeController extends Controller
         ])->get();
         // dd('userPaymentApiDataDB:', $userPaymentApiDataDB);
         if ($userPaymentApiDataDB->isEmpty()) {
-            Log::info('Index, 
+            Log::warning('Index, 
             user_payment_api_data data isEmpty in DB !!');
         } else {
             Log::info('Index, 
@@ -93,7 +93,7 @@ class HomeController extends Controller
             !$newUserApiDataDB->isEmpty()
             && $userPaymentApiDataDB->isEmpty()
         ) {
-            Log::info('Index, 
+            Log::warning('Index, 
             $newUserApiDataDB found only !!');
 
             $content->description(
@@ -104,7 +104,7 @@ class HomeController extends Controller
             $newUserApiDataDB->isEmpty()
             && !$userPaymentApiDataDB->isEmpty()
         ) {
-            Log::info('Index, 
+            Log::warning('Index, 
             $userPaymentApiDataDB found only !!');
 
             $content->description(
@@ -112,7 +112,7 @@ class HomeController extends Controller
                     ' : User Payment Data Available only !!</strong>'
             );
         } else {
-            Log::info('Index, 
+            Log::warning('Index, 
             $newUserApiDataDB & $userPaymentApiDataDB isEmpty !!');
 
             $content->description(
