@@ -48,9 +48,11 @@ class HomeController extends Controller
         ])->get();
         // dd('newUserApiDataDB:', $newUserApiDataDB);
         if ($newUserApiDataDB->isEmpty()) {
-            Log::info('No $newUserApiDataDB data found !!');
+            Log::info('Index, 
+            new_user_api_data data isEmpty in DB !!');
         } else {
-            Log::info('$newUserApiDataDB data found');
+            Log::info('Index, 
+            new_user_api_data data found in DB');
         }
 
         // 從DB讀取user_payment_api_data資料
@@ -62,9 +64,11 @@ class HomeController extends Controller
         ])->get();
         // dd('userPaymentApiDataDB:', $userPaymentApiDataDB);
         if ($userPaymentApiDataDB->isEmpty()) {
-            Log::info('No $userPaymentApiDataDB data found !!');
+            Log::info('Index, 
+            user_payment_api_data data isEmpty in DB !!');
         } else {
-            Log::info('$userPaymentApiDataDB data found');
+            Log::info('Index, 
+            user_payment_api_data data found in DB');
         }
 
         $content->title('Index');
@@ -78,7 +82,8 @@ class HomeController extends Controller
             !$newUserApiDataDB->isEmpty()
             && !$userPaymentApiDataDB->isEmpty()
         ) {
-            Log::info('$newUserApiDataDB & $userPaymentApiDataDB found');
+            Log::info('Index, 
+            $newUserApiDataDB & $userPaymentApiDataDB found');
 
             $content->description(
                 '<strong>' . date('Y-m-d') .
@@ -88,7 +93,8 @@ class HomeController extends Controller
             !$newUserApiDataDB->isEmpty()
             && $userPaymentApiDataDB->isEmpty()
         ) {
-            Log::info('only $newUserApiDataDB found');
+            Log::info('Index, 
+            $newUserApiDataDB found only !!');
 
             $content->description(
                 '<strong>' . date('Y-m-d') .
@@ -98,14 +104,16 @@ class HomeController extends Controller
             $newUserApiDataDB->isEmpty()
             && !$userPaymentApiDataDB->isEmpty()
         ) {
-            Log::info('only $userPaymentApiDataDB found');
+            Log::info('Index, 
+            $userPaymentApiDataDB found only !!');
 
             $content->description(
                 '<strong>' . date('Y-m-d') .
                     ' : User Payment Data Available only !!</strong>'
             );
         } else {
-            Log::info('$newUserApiDataDB & $userPaymentApiDataDB not found');
+            Log::info('Index, 
+            $newUserApiDataDB & $userPaymentApiDataDB isEmpty !!');
 
             $content->description(
                 '<strong>' . date('Y-m-d') .
