@@ -17,10 +17,17 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
 
-        // php artisan schedule:work
-        $schedule->command('command_newUserApiData:store')->everyMinute();
+        $id = 'NBS';
+        $date = date('Y-m-d');
 
-        $schedule->command('command_userPaymentApiData:store')->everyMinute();
+        // php artisan schedule:work
+        $schedule->exec(
+            "php artisan command_newUserApiData:store --id=$id --date=$date"
+        )->everyMinute();
+
+        $schedule->exec(
+            "php artisan command_userPaymentApiData:store --id=$id --date=$date"
+        )->everyMinute();
     }
 
     /**

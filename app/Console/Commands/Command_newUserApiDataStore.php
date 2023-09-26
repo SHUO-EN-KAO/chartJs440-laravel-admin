@@ -14,7 +14,7 @@ class Command_newUserApiDataStore extends Command
      *
      * @var string
      */
-    protected $signature = 'command_newUserApiData:store';
+    protected $signature = 'command_newUserApiData:store {--id=} {--date=}';
 
     /**
      * The console command description.
@@ -30,9 +30,12 @@ class Command_newUserApiDataStore extends Command
      */
     public function handle()
     {
+        $id = $this->option('id');
+        $date = $this->option('date');
+
         $response = Http::post('http://34.100.197.14/statistics/user/new/hourly', [
-            'id' => 'NBS',
-            'date' => date('Y-m-d'),
+            'id' => $id,
+            'date' => $date,
         ]);
 
         $jsonNewUser = $response->json();
@@ -70,4 +73,4 @@ class Command_newUserApiDataStore extends Command
     }
 }
 
-// php artisan command_newUserApiData:store
+// php artisan command_newUserApiData:store {--id=NBS} {--date=2023-10-10}

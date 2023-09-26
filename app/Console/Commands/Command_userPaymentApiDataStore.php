@@ -14,7 +14,7 @@ class Command_userPaymentApiDataStore extends Command
      *
      * @var string
      */
-    protected $signature = 'command_userPaymentApiData:store';
+    protected $signature = 'command_userPaymentApiData:store {--id=} {--date=}';
 
     /**
      * The console command description.
@@ -30,10 +30,13 @@ class Command_userPaymentApiDataStore extends Command
      */
     public function handle()
     {
+        $id = $this->option('id');
+        $date = $this->option('date');
+
         // API獲取資料
         $response = Http::post('http://34.100.197.14/statistics/payment/hourly', [
-            'id' => 'NBS',
-            'date' => date('Y-m-d'),
+            'id' => $id,
+            'date' => $date,
         ]);
 
         // 處理response資料轉json
@@ -76,4 +79,4 @@ class Command_userPaymentApiDataStore extends Command
     }
 }
 
-// php artisan command_userPaymentApiData:store
+// php artisan command_userPaymentApiData:store {--id=NBS} {--date=2023-10-10}
