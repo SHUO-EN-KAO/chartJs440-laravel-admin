@@ -14,6 +14,7 @@ use App\Admin\Forms\Test;
 use App\Admin\Forms\NewUserForm;
 use App\Admin\Forms\UserPaymentForm;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 
 class HomeController extends Controller
@@ -46,6 +47,11 @@ class HomeController extends Controller
             // 'date' => date('2023-01-02'),
         ])->get();
         // dd('newUserApiDataDB:', $newUserApiDataDB);
+        if ($newUserApiDataDB->isEmpty()) {
+            Log::info('No $newUserApiDataDB data found !!');
+        } else {
+            Log::info('$newUserApiDataDB data found');
+        }
 
         // 從DB讀取user_payment_api_data資料
         $userPaymentApiDataDB = UserPaymentApiData::where([
@@ -55,6 +61,11 @@ class HomeController extends Controller
 
         ])->get();
         // dd('userPaymentApiDataDB:', $userPaymentApiDataDB);
+        if ($userPaymentApiDataDB->isEmpty()) {
+            Log::info('No $userPaymentApiDataDB data found !!');
+        } else {
+            Log::info('$userPaymentApiDataDB data found');
+        }
 
         $content->title('Index');
 
@@ -67,6 +78,8 @@ class HomeController extends Controller
             !$newUserApiDataDB->isEmpty()
             && !$userPaymentApiDataDB->isEmpty()
         ) {
+            Log::info('$newUserApiDataDB & $userPaymentApiDataDB found');
+
             $content->description(
                 '<strong>' . date('Y-m-d') .
                     ' : Data Available</strong>'
@@ -75,6 +88,8 @@ class HomeController extends Controller
             !$newUserApiDataDB->isEmpty()
             && $userPaymentApiDataDB->isEmpty()
         ) {
+            Log::info('only $newUserApiDataDB found');
+
             $content->description(
                 '<strong>' . date('Y-m-d') .
                     ' : New User Data Available only !! </strong>'
@@ -83,11 +98,15 @@ class HomeController extends Controller
             $newUserApiDataDB->isEmpty()
             && !$userPaymentApiDataDB->isEmpty()
         ) {
+            Log::info('only $userPaymentApiDataDB found');
+
             $content->description(
                 '<strong>' . date('Y-m-d') .
                     ' : User Payment Data Available only !!</strong>'
             );
         } else {
+            Log::info('$newUserApiDataDB & $userPaymentApiDataDB not found');
+
             $content->description(
                 '<strong>' . date('Y-m-d') .
                     ' : No Data Available !!</strong>'
