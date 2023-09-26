@@ -73,8 +73,6 @@ class UserPaymentApiDataStore extends Command
         }
 
         $this->info('User Payment Api Data stored successfully');
-
-        // return Command::SUCCESS;
     }
 }
 

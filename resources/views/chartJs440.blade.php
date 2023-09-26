@@ -90,40 +90,6 @@
     </div>
 
     <script>
-        // const ctx = document.getElementById('myChart');
-        // console.log('ctx:', ctx);
-
-        // new Chart(ctx, {
-        //     type: 'bar',
-        //     data: {
-        //         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        //         datasets: [{
-        //             label: '# of Votes',
-        //             data: [12, 19, 3, 5, 2, 3],
-        //             borderWidth: 1
-        //         }]
-        //     },
-        //     options: {
-        //         maintainAspectRatio: false,
-        //         plugins: {
-        //             title: {
-        //                 display: true,
-        //                 text: 'Example',
-        //                 font: {
-        //                     size: 18
-        //                 },
-        //                 padding: 0,
-        //             },
-        //             legend: true,
-        //         },
-        //         scales: {
-        //             y: {
-        //                 beginAtZero: true,
-        //             }
-        //         }
-        //     }
-        // });
-
         // newUserLineChart
         const newUserCtx = document.getElementById('newUserLineChart');
         console.log('newUserCtx:', newUserCtx);

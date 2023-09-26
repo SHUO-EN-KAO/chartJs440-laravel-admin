@@ -32,8 +32,6 @@ class NewUserApiDataStore extends Command
         $response = Http::post('http://34.100.197.14/statistics/user/new/hourly', [
             'id' => 'NBS',
             'date' => date('Y-m-d'),
-            // 'date' => ('2023-08-10'),
-            // 日期寫死測試
         ]);
 
         $jsonNewUser = $response->json();
@@ -68,8 +66,6 @@ class NewUserApiDataStore extends Command
         }
 
         $this->info('New User Api Data stored successfully');
-
-        // return Command::SUCCESS;
     }
 }
 

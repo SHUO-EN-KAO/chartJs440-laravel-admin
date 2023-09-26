@@ -21,30 +21,10 @@ class HomeController extends Controller
 {
     public function index(Content $content)
     {
-        // return $content
-        //     ->title('Dashboard')
-        //     ->description('Description...')
-        //     ->row(Dashboard::title())
-        //     ->row(function (Row $row) {
-
-        //         $row->column(4, function (Column $column) {
-        //             $column->append(Dashboard::environment());
-        //         });
-
-        //         $row->column(4, function (Column $column) {
-        //             $column->append(Dashboard::extensions());
-        //         });
-
-        //         $row->column(4, function (Column $column) {
-        //             $column->append(Dashboard::dependencies());
-        //         });
-        //     });
-
         // 從DB讀取new_user_api_data資料
         $newUserApiDataDB = NewUserApiData::where([
             'game_id' => 'NBS',
             'date' => date('Y-m-d'),
-            // 'date' => date('2023-01-02'),
         ])->get();
         // dd('newUserApiDataDB:', $newUserApiDataDB);
         if ($newUserApiDataDB->isEmpty()) {
@@ -59,8 +39,6 @@ class HomeController extends Controller
         $userPaymentApiDataDB = UserPaymentApiData::where([
             'game_id' => 'NBS',
             'date' => date('Y-m-d'),
-            // 'date' => date('2023-01-02'),
-
         ])->get();
         // dd('userPaymentApiDataDB:', $userPaymentApiDataDB);
         if ($userPaymentApiDataDB->isEmpty()) {
@@ -182,8 +160,6 @@ class HomeController extends Controller
         $response = Http::post('http://34.100.197.14/statistics/user/new/hourly', [
             'id' => 'NBS',
             'date' => date('Y-m-d'),
-            // 'date' => ('2023-08-10'),
-            // 日期寫死測試
         ]);
 
         $jsonNewUser = $response->json();
@@ -316,7 +292,6 @@ class HomeController extends Controller
             // 測$date值
             // return $date;
 
-            // 取$result值
             $result = session('result');
             // 測$result值
             // $return_result = [
@@ -325,41 +300,15 @@ class HomeController extends Controller
             // ];
             // return $return_result;
 
-            // 取$newAndroidUsers值
             $newAndroidUsers = session('newAndroidUsers');
-            // 測$newAndroidUsers值
-            // $return_newAndroidUsers = [
-            //     'newAndroidUsers' => $newAndroidUsers,
-            //     'dataType' => gettype($newAndroidUsers),
-            // ];
-            // return $return_newAndroidUsers;
 
             // 取$newAndroidUsers加總$sumA
             $sumA = session('sumA');
-            // 測$sumA值
-            // $return_sumA = [
-            //     'sumA' => $sumA,
-            //     'dataType' => gettype($sumA),
-            // ];
-            // return $return_sumA;
 
-            // 取$newiOSUsers值
             $newiOSUsers = session('newiOSUsers');
-            // 測$newiOSUsers值
-            // $return_newiOSUsers = [
-            //     'newiOSUsers' => $newiOSUsers,
-            //     'dataType' => gettype($newiOSUsers),
-            // ];
-            // return $return_newiOSUsers;
 
             // 取$newiOSUsers加總$sumI
             $sumI = session('sumI');
-            // 測$sumI值
-            // $return_sumI = [
-            //     'sumI' => $sumI,
-            //     'dataType' => gettype($sumI),
-            // ];
-            // return $return_sumI;
 
             $content->view('newUser', [
                 'result' => $result,
@@ -400,77 +349,25 @@ class HomeController extends Controller
             // ];
             // return $return_result;
 
-            // 取$androidUsers數組值
             $androidUsers = session('androidUsers');
-            // 測$androidUsers值
-            // $return_androidUsers = [
-            //     'androidUsers' => $androidUsers,
-            //     'dataType' => gettype($androidUsers),
-            // ];
-            // return $return_androidUsers;
 
             // 取$androidUsers加總$sumAU值
             $sumAU = session('sumAU');
-            // 測$sumAU值
-            // $return_sumAU = [
-            //     'sumAU' => $sumAU,
-            //     'dataType' => gettype($sumAU),
-            // ];
-            // return $return_sumAU;
 
-            // 取$androidRev數組值
             $androidRev = session('androidRev');
-            // 測$androidRev數組值
-            // $return_androidRev = [
-            //     'androidRev' => $androidRev,
-            //     'dataType' => gettype($androidRev),
-            // ];
-            // return $return_androidRev;
 
             // 取$androidUserRev加總$sumAR值
             $sumAR = session('sumAR');
-            // 測$sumAR值
-            // $return_sumAR = [
-            //     'sumAR' => $sumAR,
-            //     'dataType' => gettype($sumAR),
-            // ];
-            // return $return_sumAR;
 
-            // 取$iOSUsers數組值
             $iOSUsers = session('iOSUsers');
-            // 測$iOSUsers值
-            // $return_iOSUsers = [
-            //     'iOSUsers' => $iOSUsers,
-            //     'dataType' => gettype($iOSUsers),
-            // ];
-            // return $return_iOSUsers;
 
             // 取$iOSUsers加總$sumIU
             $sumIU = session('sumIU');
-            // 測$sumIU值
-            // $return_sumIU = [
-            //     'sumIU' => $sumIU,
-            //     'dataType' => gettype($sumIU),
-            // ];
-            // return $return_sumIU;
 
-            // 取$iiOSRev數組值
             $iOSRev = session('iOSRev');
-            // 測$iOSRev值
-            // $return_iOSRev = [
-            //     'iOSRev' => $iOSRev,
-            //     'dataType' => gettype($iOSRev),
-            // ];
-            // return $return_iOSRev;
 
             // 取$iOSRev加總$sumIR值
             $sumIR = session('sumIR');
-            // 測$sumIR值
-            // $return_sumIR = [
-            //     'sumIR' => $sumIR,
-            //     'dataType' => gettype($sumIR),
-            // ];
-            // return $return_sumIR;
 
             $content->view(
                 'userPayment',
